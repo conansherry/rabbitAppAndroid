@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 
-public class MainRabbitActivity extends Activity {
+public class StartupActivity extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
 
     /** Called when the activity is first created. */
     @Override
@@ -23,9 +22,9 @@ public class MainRabbitActivity extends Activity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(MainRabbitActivity.this,Menu.class);
-                MainRabbitActivity.this.startActivity(mainIntent);
-                MainRabbitActivity.this.finish();
+                Intent mainIntent = new Intent(StartupActivity.this, MainListActivity.class);
+                StartupActivity.this.startActivity(mainIntent);
+                StartupActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }
