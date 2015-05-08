@@ -8,4 +8,11 @@
     <string name="info">兔子の信息</string>
     <string name="extra">兔子の其它</string>
 
+    <string name="menu_refresh">Refresh</string>
+
+    <string name="menu_color_scheme">Color scheme</string>
+    <string name="menu_color_scheme_1">Scheme #1</string>
+    <string name="menu_color_scheme_2">Scheme #2</string>
+    <string name="menu_color_scheme_3">Scheme #3</string>
+
 </resources>

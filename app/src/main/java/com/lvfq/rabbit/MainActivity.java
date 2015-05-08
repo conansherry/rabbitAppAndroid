@@ -40,6 +40,7 @@ public class MainActivity extends ActivityBase {
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment();
+            //SwipeRefreshListFragmentFragment fragment = new SwipeRefreshListFragmentFragment();
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
@@ -47,7 +48,6 @@ public class MainActivity extends ActivityBase {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

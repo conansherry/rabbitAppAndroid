@@ -51,17 +51,21 @@ public class SlidingTabsColorsFragment extends Fragment {
         private final int mIndicatorColor;
         private final int mDividerColor;
 
+        private SwipeRefreshListFragmentFragment mSwipeRefreshListFragmentFragment;
+
         RabbitPagerItem(CharSequence title, int indicatorColor, int dividerColor) {
             mTitle = title;
             mIndicatorColor = indicatorColor;
             mDividerColor = dividerColor;
+
+            mSwipeRefreshListFragmentFragment=new SwipeRefreshListFragmentFragment();
         }
 
         /**
          * @return A new {@link Fragment} to be displayed by a {@link ViewPager}
          */
         Fragment createFragment() {
-            return ContentFragment.newInstance(mTitle, mIndicatorColor, mDividerColor);
+            return mSwipeRefreshListFragmentFragment;
         }
 
         /**
