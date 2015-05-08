@@ -3,4 +3,9 @@
     <string name="app_name">黄艺林-菟籽琳</string>
     <string name="loadinfo">萌萌哒载入中</string>
     <string name="action_settings">设置</string>
+
+    <string name="video">兔子の舞蹈</string>
+    <string name="info">兔子の信息</string>
+    <string name="extra">兔子の其它</string>
+
 </resources>
