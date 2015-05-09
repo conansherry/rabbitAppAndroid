@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * A sample which shows how to use {@link SwipeRefreshLayout} within a
@@ -45,16 +46,15 @@ import java.util.List;
  */
 public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
 
-    private static final String LOG_TAG = SwipeRefreshListFragmentFragment.class.getSimpleName();
-
     private static final int LIST_ITEM_COUNT = 20;
+    private static final Random random = new Random();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Notify the system to allow an options menu for this fragment.
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
     }
 
     // BEGIN_INCLUDE (setup_views)
@@ -98,68 +98,28 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     }
 
-    // BEGIN_INCLUDE (setup_refresh_menu_listener)
-    /**
-     * Respond to the user's selection of the Refresh action item. Start the SwipeRefreshLayout
-     * progress bar, then initiate the background task that refreshes the content.
-     *
-     * <p>A color scheme menu item used for demonstrating the use of SwipeRefreshLayout's color
-     * scheme functionality. This kind of menu item should not be incorporated into your app,
-     * it just to demonstrate the use of color. Instead you should choose a color scheme based
-     * off of your application's branding.
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh:
-
-                // We make sure that the SwipeRefreshLayout is displaying it's refreshing indicator
-                if (!isRefreshing()) {
-                    setRefreshing(true);
-                }
-
-                // Start our refresh background task
-                initiateRefresh();
-                return true;
-
-            case R.id.menu_color_scheme_1:
-                item.setChecked(true);
-
-                // Change the colors displayed by the SwipeRefreshLayout by providing it with 4
-                // color resource ids
-                setColorScheme(R.color.color_scheme_1_1, R.color.color_scheme_1_2,
-                        R.color.color_scheme_1_3, R.color.color_scheme_1_4);
-                return true;
-
-            case R.id.menu_color_scheme_2:
-                item.setChecked(true);
-
-                // Change the colors displayed by the SwipeRefreshLayout by providing it with 4
-                // color resource ids
-                setColorScheme(R.color.color_scheme_2_1, R.color.color_scheme_2_2,
-                        R.color.color_scheme_2_3, R.color.color_scheme_2_4);
-                return true;
-
-            case R.id.menu_color_scheme_3:
-                item.setChecked(true);
-
-                // Change the colors displayed by the SwipeRefreshLayout by providing it with 4
-                // color resource ids
-                setColorScheme(R.color.color_scheme_3_1, R.color.color_scheme_3_2,
-                        R.color.color_scheme_3_3, R.color.color_scheme_3_4);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    // END_INCLUDE (setup_refresh_menu_listener)
-
     // BEGIN_INCLUDE (initiate_refresh)
     /**
      * By abstracting the refresh process to a single method, the app allows both the
      * SwipeGestureLayout onRefresh() method and the Refresh action item to refresh the content.
      */
     private void initiateRefresh() {
+        //random progressbar color scheme
+        int randNum = random.nextInt(3);
+        switch (randNum) {
+            case 0:
+                setColorScheme(R.color.color_scheme_1_1, R.color.color_scheme_1_2,
+                        R.color.color_scheme_1_3, R.color.color_scheme_1_4);
+                break;
+            case 1:
+                setColorScheme(R.color.color_scheme_2_1, R.color.color_scheme_2_2,
+                        R.color.color_scheme_2_3, R.color.color_scheme_2_4);
+                break;
+            case 2:
+                setColorScheme(R.color.color_scheme_3_1, R.color.color_scheme_3_2,
+                        R.color.color_scheme_3_3, R.color.color_scheme_3_4);
+                break;
+        }
         /**
          * Execute the background task, which uses {@link AsyncTask} to load the data.
          */
@@ -179,7 +139,6 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
         for (String cheese : result) {
             adapter.add(cheese);
         }
-
         // Stop the refreshing indicator
         setRefreshing(false);
     }
@@ -190,7 +149,7 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
      */
     private class DummyBackgroundTask extends AsyncTask<Void, Void, List<String>> {
 
-        static final int TASK_DURATION = 3 * 1000; // 3 seconds
+        static final int TASK_DURATION = 2 * 1000; // 3 seconds
 
         @Override
         protected List<String> doInBackground(Void... params) {

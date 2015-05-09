@@ -21,10 +21,12 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.AbsListView;
 
 /**
  * Subclass of {@link ListFragment} which provides automatic support for
@@ -32,6 +34,8 @@ import android.widget.ListView;
  * {@link SwipeRefreshLayout}.
  */
 public class SwipeRefreshListFragment extends ListFragment {
+
+    private final static String TAG = "SwipeRefresh";
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -58,6 +62,30 @@ public class SwipeRefreshListFragment extends ListFragment {
 
         // Now return the SwipeRefreshLayout as this fragment's content view
         return mSwipeRefreshLayout;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final ListView listView = getListView();
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView arg0, int arg1) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (listView.getCount() != 0
+                        && listView.getLastVisiblePosition() >= (listView.getCount() - 1) - 2) {
+                    // Do what you need to get more content.
+                    //loadMore();
+                    Log.d(TAG, "load more");
+                }
+            }
+        });
     }
 
     /**
@@ -93,10 +121,10 @@ public class SwipeRefreshListFragment extends ListFragment {
     /**
      * Set the color scheme for the {@link SwipeRefreshLayout}.
      *
-     * @see SwipeRefreshLayout#setColorScheme(int, int, int, int)
+     * @see SwipeRefreshLayout#setColorSchemeColors(int...)
      */
     public void setColorScheme(int colorRes1, int colorRes2, int colorRes3, int colorRes4) {
-        mSwipeRefreshLayout.setColorScheme(colorRes1, colorRes2, colorRes3, colorRes4);
+        mSwipeRefreshLayout.setColorSchemeResources(colorRes1, colorRes2, colorRes3, colorRes4);
     }
 
     /**
