@@ -43,8 +43,11 @@ public class SwipeRefreshListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        // Create the list fragment's content view by calling the super method
+        // Create the list fragment's content view
         final View listFragmentView = super.onCreateView(inflater, container, savedInstanceState);
+        //final View listFragmentView = new ListView(getActivity());
+        //listFragmentView.setId(android.R.id.list);
+        //final View listFragmentView = inflater.inflate(R.layout.listview, container, false);
 
         // Now create a SwipeRefreshLayout to wrap the fragment's content view
         mSwipeRefreshLayout = new ListFragmentSwipeRefreshLayout(container.getContext());
@@ -82,7 +85,7 @@ public class SwipeRefreshListFragment extends ListFragment {
                         && listView.getLastVisiblePosition() >= (listView.getCount() - 1) - 2) {
                     // Do what you need to get more content.
                     //loadMore();
-                    Log.d(TAG, "load more");
+                    //Log.d(TAG, "load more");
                 }
             }
         });

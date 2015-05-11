@@ -25,9 +25,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.util.Log;
+import android.graphics.BitmapFactory;
 
+import com.lvfq.rabbit.data.RabbitDataItem;
+import com.lvfq.rabbit.util.HttpRequest;
+import com.lvfq.rabbit.util.Base64;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.IOException;
 
 /**
  * A sample which shows how to use {@link SwipeRefreshLayout} within a
@@ -46,8 +57,10 @@ import java.util.Random;
  */
 public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
 
-    private static final int LIST_ITEM_COUNT = 20;
+    private static final int LIST_ITEM_COUNT = 5;
     private static final Random random = new Random();
+
+    private RabbitAdapter rabbitAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +68,8 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
 
         // Notify the system to allow an options menu for this fragment.
         //setHasOptionsMenu(true);
+
+        rabbitAdapter=new RabbitAdapter(getActivity());
     }
 
     // BEGIN_INCLUDE (setup_views)
@@ -66,14 +81,15 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
          * Create an ArrayAdapter to contain the data for the ListView. Each item in the ListView
          * uses the system-defined simple_list_item_1 layout that contains one TextView.
          */
-        ListAdapter adapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                Cheeses.randomList(LIST_ITEM_COUNT));
+//        ListAdapter adapter = new ArrayAdapter<String>(
+//                getActivity(),
+//                android.R.layout.simple_list_item_1,
+//                android.R.id.text1,
+//                Cheeses.randomList(LIST_ITEM_COUNT));
+//        setListAdapter(adapter);
 
         // Set the adapter between the ListView and its backing data.
-        setListAdapter(adapter);
+        setListAdapter(rabbitAdapter);
 
         // BEGIN_INCLUDE (setup_refreshlistener)
         /**
@@ -132,13 +148,11 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
      * When the AsyncTask finishes, it calls onRefreshComplete(), which updates the data in the
      * ListAdapter and turns off the progress bar.
      */
-    private void onRefreshComplete(List<String> result) {
+    private void onRefreshComplete(List<RabbitDataItem> result) {
         // Remove all items from the ListAdapter, and then replace them with the new items
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
-        adapter.clear();
-        for (String cheese : result) {
-            adapter.add(cheese);
-        }
+        RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
+        adapter.setRabbitData(result);
+        adapter.notifyDataSetChanged();
         // Stop the refreshing indicator
         setRefreshing(false);
     }
@@ -147,27 +161,65 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
     /**
      * Dummy {@link AsyncTask} which simulates a long running task to fetch new cheeses.
      */
-    private class DummyBackgroundTask extends AsyncTask<Void, Void, List<String>> {
-
-        static final int TASK_DURATION = 2 * 1000; // 3 seconds
-
+    private class DummyBackgroundTask extends AsyncTask<Void, Void, List<RabbitDataItem>> {
+        private static final String TAG="BackgoundTask";
         @Override
-        protected List<String> doInBackground(Void... params) {
-            // Sleep for a small amount of time to simulate a background-task
-            try {
-                Thread.sleep(TASK_DURATION);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        protected List<RabbitDataItem> doInBackground(Void... params) {
+            //request the server to get rabbit data
+            List<RabbitDataItem> rabbitData=null;
+            String result=HttpRequest.sendGet(getString(R.string.server), "");
+            if(result!=null) {
+                Log.d(TAG,"into add rabit item");
+                rabbitData=new ArrayList<RabbitDataItem>();
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.getJSONArray("rabbitData");
+                    for(int i=0;i<jsonArray.length();i++) {
+                        JSONObject oneRabbit=jsonArray.getJSONObject(i);
+                        RabbitDataItem rabbitDataItem=new RabbitDataItem();
+                        rabbitDataItem.title=oneRabbit.getString("title");
+                        rabbitDataItem.maintext=oneRabbit.getString("maintext");
+                        rabbitDataItem.timetext=oneRabbit.getString("timetext");
+                        byte[] thumbnailBytes=null;
+                        byte[] extraInfoBytes=null;
+                        try {
+                            thumbnailBytes=Base64.decode(oneRabbit.getString("thumbnail"));
+                            extraInfoBytes=Base64.decode(oneRabbit.getString("picture"));
+                        }
+                        catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                            thumbnailBytes=null;
+                            extraInfoBytes=null;
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                            thumbnailBytes=null;
+                            extraInfoBytes=null;
+                        }
+                        if(thumbnailBytes!=null)
+                            rabbitDataItem.thumbnail=BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length);
+                        else
+                            rabbitDataItem.thumbnail=null;
+                        if(extraInfoBytes!=null)
+                            rabbitDataItem.extraInfo=BitmapFactory.decodeByteArray(extraInfoBytes, 0, extraInfoBytes.length);
+                        else
+                            rabbitDataItem.extraInfo=null;
+                        rabbitData.add(rabbitDataItem);
+                    }
+                }
+                catch (JSONException e) {
+                    rabbitData=null;
+                    Log.e(TAG, "JSONException");
+                }
             }
-
-            // Return a new random list of cheeses
-            return Cheeses.randomList(LIST_ITEM_COUNT);
+            // Return rabbitdata
+            return rabbitData;
         }
 
         @Override
-        protected void onPostExecute(List<String> result) {
+        protected void onPostExecute(List<RabbitDataItem> result) {
             super.onPostExecute(result);
-
             // Tell the Fragment that the refresh has completed
             onRefreshComplete(result);
         }
