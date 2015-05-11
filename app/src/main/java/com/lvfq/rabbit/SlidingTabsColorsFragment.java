@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.text.Spannable;
+import android.util.Log;
 
 import com.lvfq.rabbit.common.view.SlidingTabLayout;
 
@@ -41,7 +42,7 @@ import java.util.List;
  * when scrolling.
  */
 public class SlidingTabsColorsFragment extends Fragment {
-
+    private final static String TAG="SlidingTabs";
     /**
      * This class represents a tab to be displayed by {@link ViewPager} and it's associated
      * {@link SlidingTabLayout}.
@@ -51,21 +52,26 @@ public class SlidingTabsColorsFragment extends Fragment {
         private final int mIndicatorColor;
         private final int mDividerColor;
 
-        private SwipeRefreshListFragmentFragment mSwipeRefreshListFragmentFragment;
+        private Fragment mFragment;
 
-        RabbitPagerItem(CharSequence title, int indicatorColor, int dividerColor) {
+        RabbitPagerItem(CharSequence title, int indicatorColor, int dividerColor, int type) {
             mTitle = title;
             mIndicatorColor = indicatorColor;
             mDividerColor = dividerColor;
 
-            mSwipeRefreshListFragmentFragment=new SwipeRefreshListFragmentFragment();
+            mFragment=new SwipeRefreshListFragmentFragment();;
+            Bundle bundle = new Bundle(1);
+            bundle.putInt("TYPE", type);
+            mFragment.setArguments(bundle);
+
+            Log.d(TAG, "RabbitPagerItem init");
         }
 
         /**
          * @return A new {@link Fragment} to be displayed by a {@link ViewPager}
          */
         Fragment createFragment() {
-            return mSwipeRefreshListFragmentFragment;
+            return mFragment;
         }
 
         /**
@@ -107,9 +113,14 @@ public class SlidingTabsColorsFragment extends Fragment {
      */
     private List<RabbitPagerItem> mTabs = new ArrayList<RabbitPagerItem>();
 
+    public SlidingTabsColorsFragment() {
+        Log.d(TAG, "construct");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
 
         // BEGIN_INCLUDE (populate_tabs)
         /**
@@ -119,19 +130,22 @@ public class SlidingTabsColorsFragment extends Fragment {
         mTabs.add(new RabbitPagerItem(
                 getString(R.string.video), // Title
                 Color.BLUE, // Indicator color
-                Color.GRAY // Divider color
+                Color.GRAY, // Divider color
+                0
         ));
 
         mTabs.add(new RabbitPagerItem(
                 getString(R.string.info), // Title
                 Color.RED, // Indicator color
-                Color.GRAY // Divider color
+                Color.GRAY, // Divider color
+                1
         ));
 
         mTabs.add(new RabbitPagerItem(
                 getString(R.string.extra), // Title
                 Color.YELLOW, // Indicator color
-                Color.GRAY // Divider color
+                Color.GRAY, // Divider color
+                1
         ));
         // END_INCLUDE (populate_tabs)
     }
@@ -143,6 +157,8 @@ public class SlidingTabsColorsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+
+
         return inflater.inflate(R.layout.fragment_item, container, false);
     }
 

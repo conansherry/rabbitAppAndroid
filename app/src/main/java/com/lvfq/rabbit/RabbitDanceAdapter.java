@@ -1,26 +1,24 @@
 package com.lvfq.rabbit;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.util.Log;
 
-import com.lvfq.rabbit.data.*;
+import com.lvfq.rabbit.data.RabbitDataItem;
 
-public class RabbitAdapter extends BaseAdapter {
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-    private static final String TAG="RabbitAdapter";
+public class RabbitDanceAdapter extends BaseAdapter {
+
+    private static final String TAG="RabbitDanceAdapter";
 
     private Activity activity;
     private static LayoutInflater inflater;
@@ -29,24 +27,24 @@ public class RabbitAdapter extends BaseAdapter {
     private SimpleDateFormat detailTimeFormat;
 
     //begin data
-    private static int MAX_INFO_NUM = 20;
-    private List<RabbitDataItem> orderListRabbitData;
+    private static List<RabbitDataItem> orderListRabbitData=null;
     //end data
 
-    public RabbitAdapter(Activity a) {
+    public RabbitDanceAdapter(Activity a) {
         activity = a;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         abstractTimeFormat = new SimpleDateFormat("MM-dd");
         detailTimeFormat = new SimpleDateFormat("HH-mm");
 
-        orderListRabbitData = new ArrayList<RabbitDataItem>();
+        if(orderListRabbitData==null) {
+            orderListRabbitData = new ArrayList<RabbitDataItem>();
 
-        orderListRabbitData.add(new RabbitDataItem());
-        orderListRabbitData.add(new RabbitDataItem());
-        orderListRabbitData.add(new RabbitDataItem());
+            orderListRabbitData.add(new RabbitDataItem());
+            orderListRabbitData.add(new RabbitDataItem());
+            orderListRabbitData.add(new RabbitDataItem());
+        }
 
-
-        Log.d(TAG, "RabbitAdapter Creation");
+        Log.d(TAG, "construct");
     }
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {

@@ -21,12 +21,10 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.util.Log;
 import android.graphics.BitmapFactory;
+import android.widget.BaseAdapter;
 
 import com.lvfq.rabbit.data.RabbitDataItem;
 import com.lvfq.rabbit.util.HttpRequest;
@@ -60,16 +58,19 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
     private static final int LIST_ITEM_COUNT = 5;
     private static final Random random = new Random();
 
-    private RabbitAdapter rabbitAdapter;
+    public BaseAdapter rabbitAdapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Notify the system to allow an options menu for this fragment.
         //setHasOptionsMenu(true);
 
-        rabbitAdapter=new RabbitAdapter(getActivity());
+        int type=getArguments().getInt("TYPE");
+        if(type==0)
+            rabbitAdapter=new RabbitNewsAdapter(getActivity());
+        else
+            rabbitAdapter=new RabbitDanceAdapter(getActivity());
     }
 
     // BEGIN_INCLUDE (setup_views)
@@ -150,7 +151,7 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
      */
     private void onRefreshComplete(List<RabbitDataItem> result) {
         // Remove all items from the ListAdapter, and then replace them with the new items
-        RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
+        RabbitNewsAdapter adapter = (RabbitNewsAdapter) getListAdapter();
         adapter.setRabbitData(result);
         adapter.notifyDataSetChanged();
         // Stop the refreshing indicator

@@ -16,12 +16,17 @@
 
 package com.lvfq.rabbit;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.util.Log;
 
 import com.lvfq.rabbit.common.activities.ActivityBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -32,8 +37,11 @@ import com.lvfq.rabbit.common.activities.ActivityBase;
  */
 public class MainActivity extends ActivityBase {
 
+    private final static String TAG="MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
