@@ -15,5 +15,5 @@
     <string name="menu_color_scheme_2">Scheme #2</string>
     <string name="menu_color_scheme_3">Scheme #3</string>
 
-    <string name="server">http://10.0.2.2:1337</string>
+    <string name="server">http://120.25.122.107:1337</string>
 </resources>
