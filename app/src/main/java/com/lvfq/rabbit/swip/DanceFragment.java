@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lvfq.rabbit;
+package com.lvfq.rabbit.swip;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import android.util.Log;
 import android.graphics.BitmapFactory;
 import android.widget.BaseAdapter;
 
+import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitAdapter;
 import com.lvfq.rabbit.adapter.RabbitDanceAdapter;
 import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
@@ -56,63 +57,16 @@ import java.io.IOException;
  * {@link SwipeRefreshLayout} through the options menu. This is meant to
  * showcase the use of color rather than being something that should be integrated into apps.
  */
-public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
+public class DanceFragment extends SwipeRefreshListFragmentFragment {
 
     private static final int LIST_ITEM_COUNT = 5;
-    private static final Random random = new Random();
-
-    public BaseAdapter rabbitAdapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Notify the system to allow an options menu for this fragment.
-        //setHasOptionsMenu(true);
 
-        int type=getArguments().getInt("TYPE");
-        if(type==0)
-            rabbitAdapter=new RabbitNewsAdapter(getActivity());
-        else
-            rabbitAdapter=new RabbitDanceAdapter(getActivity());
+        rabbitAdapter=new RabbitDanceAdapter(getActivity());
     }
-
-    // BEGIN_INCLUDE (setup_views)
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        /**
-         * Create an ArrayAdapter to contain the data for the ListView. Each item in the ListView
-         * uses the system-defined simple_list_item_1 layout that contains one TextView.
-         */
-//        ListAdapter adapter = new ArrayAdapter<String>(
-//                getActivity(),
-//                android.R.layout.simple_list_item_1,
-//                android.R.id.text1,
-//                Cheeses.randomList(LIST_ITEM_COUNT));
-//        setListAdapter(adapter);
-
-        // Set the adapter between the ListView and its backing data.
-        setListAdapter(rabbitAdapter);
-
-        // BEGIN_INCLUDE (setup_refreshlistener)
-        /**
-         * Implement {@link SwipeRefreshLayout.OnRefreshListener}. When users do the "swipe to
-         * refresh" gesture, SwipeRefreshLayout invokes
-         * {@link SwipeRefreshLayout.OnRefreshListener#onRefresh onRefresh()}. In
-         * {@link SwipeRefreshLayout.OnRefreshListener#onRefresh onRefresh()}, call a method that
-         * refreshes the content. Call the same method in response to the Refresh action from the
-         * action bar.
-         */
-        setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initiateRefresh();
-            }
-        });
-        // END_INCLUDE (setup_refreshlistener)
-    }
-    // END_INCLUDE (setup_views)
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -123,44 +77,14 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
      * By abstracting the refresh process to a single method, the app allows both the
      * SwipeGestureLayout onRefresh() method and the Refresh action item to refresh the content.
      */
-    private void initiateRefresh() {
-        //random progressbar color scheme
-        int randNum = random.nextInt(3);
-        switch (randNum) {
-            case 0:
-                setColorScheme(R.color.color_scheme_1_1, R.color.color_scheme_1_2,
-                        R.color.color_scheme_1_3, R.color.color_scheme_1_4);
-                break;
-            case 1:
-                setColorScheme(R.color.color_scheme_2_1, R.color.color_scheme_2_2,
-                        R.color.color_scheme_2_3, R.color.color_scheme_2_4);
-                break;
-            case 2:
-                setColorScheme(R.color.color_scheme_3_1, R.color.color_scheme_3_2,
-                        R.color.color_scheme_3_3, R.color.color_scheme_3_4);
-                break;
-        }
+    protected void initiateRefresh() {
+        super.initiateRefresh();
         /**
          * Execute the background task, which uses {@link AsyncTask} to load the data.
          */
         new DummyBackgroundTask().execute();
     }
     // END_INCLUDE (initiate_refresh)
-
-    // BEGIN_INCLUDE (refresh_complete)
-    /**
-     * When the AsyncTask finishes, it calls onRefreshComplete(), which updates the data in the
-     * ListAdapter and turns off the progress bar.
-     */
-    private void onRefreshComplete(List<RabbitDataItem> result) {
-        // Remove all items from the ListAdapter, and then replace them with the new items
-        RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
-        adapter.setRabbitData(result);
-        adapter.notifyDataSetChanged();
-        // Stop the refreshing indicator
-        setRefreshing(false);
-    }
-    // END_INCLUDE (refresh_complete)
 
     /**
      * Dummy {@link AsyncTask} which simulates a long running task to fetch new cheeses.
@@ -227,7 +151,5 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
             // Tell the Fragment that the refresh has completed
             onRefreshComplete(result);
         }
-
     }
-
 }

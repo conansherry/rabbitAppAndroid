@@ -25,13 +25,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.graphics.drawable.Drawable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
-import android.text.Spannable;
 import android.util.Log;
 
 import com.lvfq.rabbit.common.view.SlidingTabLayout;
+import com.lvfq.rabbit.swip.DanceFragment;
+import com.lvfq.rabbit.swip.NewsFragment;
+import com.lvfq.rabbit.swip.SwipeRefreshListFragmentFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +58,10 @@ public class SlidingTabsColorsFragment extends Fragment {
             mIndicatorColor = indicatorColor;
             mDividerColor = dividerColor;
 
-            mFragment=new SwipeRefreshListFragmentFragment();;
-            Bundle bundle = new Bundle(1);
-            bundle.putInt("TYPE", type);
-            mFragment.setArguments(bundle);
+            if(type==0)
+                mFragment=new NewsFragment();
+            else
+                mFragment=new DanceFragment();
 
             Log.d(TAG, "RabbitPagerItem init");
         }
