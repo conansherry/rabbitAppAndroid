@@ -1,24 +1,28 @@
-package com.lvfq.rabbit;
+package com.lvfq.rabbit.adapter;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.util.Log;
 
-import com.lvfq.rabbit.data.RabbitDataItem;
+import com.lvfq.rabbit.MainApplication;
+import com.lvfq.rabbit.R;
+import com.lvfq.rabbit.data.*;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+public class RabbitNewsAdapter extends RabbitAdapter {
 
-public class RabbitDanceAdapter extends BaseAdapter {
-
-    private static final String TAG="RabbitDanceAdapter";
+    private static final String TAG="RabbitNewsAdapter";
 
     private Activity activity;
     private static LayoutInflater inflater;
@@ -26,23 +30,13 @@ public class RabbitDanceAdapter extends BaseAdapter {
     private SimpleDateFormat abstractTimeFormat;
     private SimpleDateFormat detailTimeFormat;
 
-    //begin data
-    private static List<RabbitDataItem> orderListRabbitData=null;
-    //end data
-
-    public RabbitDanceAdapter(Activity a) {
+    public RabbitNewsAdapter(Activity a) {
         activity = a;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         abstractTimeFormat = new SimpleDateFormat("MM-dd");
         detailTimeFormat = new SimpleDateFormat("HH-mm");
 
-        if(orderListRabbitData==null) {
-            orderListRabbitData = new ArrayList<RabbitDataItem>();
-
-            orderListRabbitData.add(new RabbitDataItem());
-            orderListRabbitData.add(new RabbitDataItem());
-            orderListRabbitData.add(new RabbitDataItem());
-        }
+        orderListRabbitData = ((MainApplication)activity.getApplication()).getListRabbitDataItem_NEWS();
 
         Log.d(TAG, "construct");
     }
@@ -51,32 +45,8 @@ public class RabbitDanceAdapter extends BaseAdapter {
         if(nonOrderListRabbitData != null) {
             //Collections.sort(nonOrderListRabbitData, new ComparatorOfRabbitDataItem());
         }
+        ((MainApplication)activity.getApplication()).setListRabbitDataItem_NEWS(nonOrderListRabbitData);
         orderListRabbitData = nonOrderListRabbitData;
-    }
-
-    public int getCount() {
-        if(orderListRabbitData != null)
-            return orderListRabbitData.size();
-        else
-            return 0;
-    }
-
-    public Object getItem(int position) {
-        if(orderListRabbitData != null)
-            return orderListRabbitData.get(position);
-        else
-            return position;
-    }
-
-    public int getPosition(Object item) {
-        if(orderListRabbitData != null)
-            return orderListRabbitData.indexOf(item);
-        else
-            return 0;
-    }
-
-    public long getItemId(int position) {
-        return position;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

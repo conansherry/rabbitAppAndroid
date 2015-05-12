@@ -26,6 +26,9 @@ import android.util.Log;
 import android.graphics.BitmapFactory;
 import android.widget.BaseAdapter;
 
+import com.lvfq.rabbit.adapter.RabbitAdapter;
+import com.lvfq.rabbit.adapter.RabbitDanceAdapter;
+import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
 import com.lvfq.rabbit.util.HttpRequest;
 import com.lvfq.rabbit.util.Base64;
@@ -151,7 +154,7 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
      */
     private void onRefreshComplete(List<RabbitDataItem> result) {
         // Remove all items from the ListAdapter, and then replace them with the new items
-        RabbitNewsAdapter adapter = (RabbitNewsAdapter) getListAdapter();
+        RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
         adapter.setRabbitData(result);
         adapter.notifyDataSetChanged();
         // Stop the refreshing indicator
