@@ -47,26 +47,48 @@ public class RabbitDanceAdapter extends RabbitAdapter {
         orderListRabbitData = nonOrderListRabbitData;
     }
 
+    private static class ViewHolder {
+        public ImageView thumbnail=null;
+        public TextView title=null;
+        public TextView maintext=null;
+        public TextView timetext=null;
+        public ImageView extraInfo=null;
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
-        if(convertView==null)
+        ViewHolder holder=null;
+        if(convertView==null) {
+            //The view is not a recycled one: we have to inflate
             vi = inflater.inflate(R.layout.list_row, null);
+            holder = new ViewHolder();
 
-        //begein bind data to view
-        TextView title=(TextView)vi.findViewById(R.id.title);
-        TextView maintext=(TextView)vi.findViewById(R.id.maintext);
-        TextView timetext=(TextView)vi.findViewById(R.id.timetext);
-        ImageView thumbnail=(ImageView)vi.findViewById(R.id.thumbnail);
+            //begein bind data to view
+            holder.title = (TextView) vi.findViewById(R.id.title);
+            holder.maintext = (TextView) vi.findViewById(R.id.maintext);
+            holder.timetext = (TextView) vi.findViewById(R.id.timetext);
+            holder.thumbnail = (ImageView) vi.findViewById(R.id.thumbnail);
 
-        RabbitDataItem rabbitDataItem=orderListRabbitData.get(position);
+            vi.setTag(holder);
+
+            Log.d(TAG, "The view is not a recycled one: we have to inflate");
+        }
+        else {
+            // view recycled !
+            // no need to inflate
+            // no need to findViews by id
+            holder = (ViewHolder)vi.getTag();
+            Log.d(TAG, "view recycled");
+        }
+        RabbitDataItem rabbitDataItem=getItem(position);
         if(rabbitDataItem.title!=null)
-            title.setText(rabbitDataItem.title);
+            holder.title.setText(rabbitDataItem.title);
         if(rabbitDataItem.maintext!=null)
-            maintext.setText(rabbitDataItem.maintext);
+            holder.maintext.setText(rabbitDataItem.maintext);
         if(rabbitDataItem.timetext!=null)
-            timetext.setText(rabbitDataItem.timetext);
+            holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null)
-            thumbnail.setImageBitmap(rabbitDataItem.thumbnail);
+            holder.thumbnail.setImageBitmap(rabbitDataItem.thumbnail);
         //end bind data to view
 
         return vi;

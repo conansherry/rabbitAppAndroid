@@ -38,14 +38,14 @@ public abstract class RabbitAdapter extends BaseAdapter {
             return 0;
     }
 
-    public Object getItem(int position) {
+    public RabbitDataItem getItem(int position) {
         if(orderListRabbitData != null)
             return orderListRabbitData.get(position);
         else
-            return position;
+            return null;
     }
 
-    public int getPosition(Object item) {
+    public int getPosition(RabbitDataItem item) {
         if(orderListRabbitData != null)
             return orderListRabbitData.indexOf(item);
         else
