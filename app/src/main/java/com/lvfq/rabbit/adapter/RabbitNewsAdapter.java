@@ -39,7 +39,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         orderListRabbitData = ((MainApplication)activity.getApplication()).getListRabbitDataItem_NEWS();
 
         Log.d(TAG, "construct");
-    }
+}
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
         if(nonOrderListRabbitData != null) {

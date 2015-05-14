@@ -25,6 +25,7 @@ import android.view.View;
 import android.util.Log;
 import android.graphics.BitmapFactory;
 import android.widget.BaseAdapter;
+import android.support.v4.app.FragmentManager;
 
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitAdapter;
@@ -58,6 +59,8 @@ import java.io.IOException;
  * showcase the use of color rather than being something that should be integrated into apps.
  */
 public class NewsFragment extends SwipeRefreshListFragmentFragment {
+
+    private static final String TAG="NewsFragment";
 
     private static final int LIST_ITEM_COUNT = 5;
 

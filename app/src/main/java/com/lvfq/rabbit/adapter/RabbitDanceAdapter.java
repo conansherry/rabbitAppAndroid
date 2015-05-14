@@ -47,7 +47,7 @@ public class RabbitDanceAdapter extends RabbitAdapter {
         orderListRabbitData = nonOrderListRabbitData;
     }
 
-    private static class ViewHolder {
+        private static class ViewHolder {
         public ImageView thumbnail=null;
         public TextView title=null;
         public TextView maintext=null;
