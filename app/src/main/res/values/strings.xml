@@ -15,5 +15,8 @@
     <string name="menu_color_scheme_2">Scheme #2</string>
     <string name="menu_color_scheme_3">Scheme #3</string>
 
-    <string name="server">http://120.25.122.107:1337</string>
+    <string name="news_server">http://120.25.122.107:8888/getNews</string>
+    <string name="dance_server">http://120.25.122.107:1337/</string>
+
+    <string name="no_network_connection_toast">小兔子离线了</string>
 </resources>

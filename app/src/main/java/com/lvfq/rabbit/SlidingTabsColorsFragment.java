@@ -28,9 +28,8 @@ import android.view.ViewGroup;
 import android.util.Log;
 
 import com.lvfq.rabbit.common.view.SlidingTabLayout;
-import com.lvfq.rabbit.swip.DanceFragment;
-import com.lvfq.rabbit.swip.NewsFragment;
-import com.lvfq.rabbit.swip.SwipeRefreshListFragmentFragment;
+import com.lvfq.rabbit.swipe.DanceFragment;
+import com.lvfq.rabbit.swipe.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class SlidingTabsColorsFragment extends Fragment {
             mIndicatorColor = indicatorColor;
             mDividerColor = dividerColor;
 
-            if(type==0)
+            if(type==1)
                 mFragment=new NewsFragment();
             else
                 mFragment=new DanceFragment();

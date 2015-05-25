@@ -14,33 +14,22 @@
  * limitations under the License.
  */
 
-package com.lvfq.rabbit.swip;
+package com.lvfq.rabbit.swipe;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.util.Log;
-import android.graphics.BitmapFactory;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitAdapter;
-import com.lvfq.rabbit.adapter.RabbitDanceAdapter;
-import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
-import com.lvfq.rabbit.util.HttpRequest;
-import com.lvfq.rabbit.util.Base64;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.io.IOException;
 
 /**
  * A sample which shows how to use {@link SwipeRefreshLayout} within a
@@ -128,13 +117,17 @@ public abstract class SwipeRefreshListFragmentFragment extends SwipeRefreshListF
      * When the AsyncTask finishes, it calls onRefreshComplete(), which updates the data in the
      * ListAdapter and turns off the progress bar.
      */
-    protected void onRefreshComplete(List<RabbitDataItem> result) {
+    protected void onRefreshComplete(List<RabbitDataItem> result, Boolean hasMore) {
         // Remove all items from the ListAdapter, and then replace them with the new items
         RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
         adapter.setRabbitData(result);
         adapter.notifyDataSetChanged();
         // Stop the refreshing indicator
         setRefreshing(false);
+        if(hasMore)
+            Toast.makeText(getActivity(),"新的小兔子出现了",Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getActivity(),"小兔子回家吃饭了",Toast.LENGTH_SHORT).show();
     }
     // END_INCLUDE (refresh_complete)
 }

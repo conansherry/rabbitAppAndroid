@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package com.lvfq.rabbit.swip;
+package com.lvfq.rabbit.swipe;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 import android.util.Log;
 import android.graphics.BitmapFactory;
-import android.widget.BaseAdapter;
 
 import com.lvfq.rabbit.R;
-import com.lvfq.rabbit.adapter.RabbitAdapter;
 import com.lvfq.rabbit.adapter.RabbitDanceAdapter;
-import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
 import com.lvfq.rabbit.util.HttpRequest;
 import com.lvfq.rabbit.util.Base64;
@@ -39,7 +35,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.io.IOException;
 
 /**
@@ -95,7 +90,7 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
             List<RabbitDataItem> rabbitData=null;
-            String result=HttpRequest.sendGet(getString(R.string.server), "");
+            String result=HttpRequest.sendGet(getString(R.string.dance_server), "");
             if(result!=null) {
                 Log.d(TAG,"into add rabit item");
                 rabbitData=new ArrayList<RabbitDataItem>();
@@ -109,30 +104,22 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
                         rabbitDataItem.maintext=oneRabbit.getString("maintext");
                         rabbitDataItem.timetext=oneRabbit.getString("timetext");
                         byte[] thumbnailBytes=null;
-                        byte[] extraInfoBytes=null;
                         try {
                             thumbnailBytes=Base64.decode(oneRabbit.getString("thumbnail"));
-                            extraInfoBytes=Base64.decode(oneRabbit.getString("picture"));
                         }
                         catch (JSONException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                             thumbnailBytes=null;
-                            extraInfoBytes=null;
                         } catch (IOException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                             thumbnailBytes=null;
-                            extraInfoBytes=null;
                         }
                         if(thumbnailBytes!=null)
                             rabbitDataItem.thumbnail=BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length);
                         else
                             rabbitDataItem.thumbnail=null;
-                        if(extraInfoBytes!=null)
-                            rabbitDataItem.extraInfo=BitmapFactory.decodeByteArray(extraInfoBytes, 0, extraInfoBytes.length);
-                        else
-                            rabbitDataItem.extraInfo=null;
                         rabbitData.add(rabbitDataItem);
                     }
                 }
@@ -149,7 +136,7 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
         protected void onPostExecute(List<RabbitDataItem> result) {
             super.onPostExecute(result);
             // Tell the Fragment that the refresh has completed
-            onRefreshComplete(result);
+            onRefreshComplete(result, true);
         }
     }
 }
