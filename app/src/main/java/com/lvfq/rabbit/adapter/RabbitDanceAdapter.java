@@ -40,9 +40,6 @@ public class RabbitDanceAdapter extends RabbitAdapter {
     }
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
-        if(nonOrderListRabbitData != null) {
-            //Collections.sort(nonOrderListRabbitData, new ComparatorOfRabbitDataItem());
-        }
         ((MainApplication)activity.getApplication()).setListRabbitDataItem_DANCE(nonOrderListRabbitData);
         orderListRabbitData = nonOrderListRabbitData;
     }
@@ -87,8 +84,8 @@ public class RabbitDanceAdapter extends RabbitAdapter {
             holder.maintext.setText(rabbitDataItem.maintext);
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
-        if(rabbitDataItem.thumbnail!=null)
-            holder.thumbnail.setImageBitmap(rabbitDataItem.thumbnail);
+//        if(rabbitDataItem.thumbnail!=null)
+//            holder.thumbnail.setImageBitmap(rabbitDataItem.thumbnail);
         //end bind data to view
 
         return vi;

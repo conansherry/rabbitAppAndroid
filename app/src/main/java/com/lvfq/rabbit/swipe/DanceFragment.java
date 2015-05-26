@@ -103,23 +103,6 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
                         rabbitDataItem.title=oneRabbit.getString("title");
                         rabbitDataItem.maintext=oneRabbit.getString("maintext");
                         rabbitDataItem.timetext=oneRabbit.getString("timetext");
-                        byte[] thumbnailBytes=null;
-                        try {
-                            thumbnailBytes=Base64.decode(oneRabbit.getString("thumbnail"));
-                        }
-                        catch (JSONException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                            thumbnailBytes=null;
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                            thumbnailBytes=null;
-                        }
-                        if(thumbnailBytes!=null)
-                            rabbitDataItem.thumbnail=BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length);
-                        else
-                            rabbitDataItem.thumbnail=null;
                         rabbitData.add(rabbitDataItem);
                     }
                 }

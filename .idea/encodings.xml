@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/AsyncTask.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/DiskLruCache.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/ImageCache.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/ImageFetcher.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/ImageResizer.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/ImageWorker.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/RecyclingBitmapDrawable.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/lvfq/rabbit/imageutil/Utils.java" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

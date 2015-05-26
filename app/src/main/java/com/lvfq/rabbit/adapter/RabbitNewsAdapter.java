@@ -42,9 +42,6 @@ public class RabbitNewsAdapter extends RabbitAdapter {
 }
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
-        if(nonOrderListRabbitData != null) {
-            //Collections.sort(nonOrderListRabbitData, new ComparatorOfRabbitDataItem());
-        }
         ((MainApplication)activity.getApplication()).setListRabbitDataItem_NEWS(nonOrderListRabbitData);
         orderListRabbitData = nonOrderListRabbitData;
     }
@@ -90,7 +87,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null)
-            holder.thumbnail.setImageBitmap(rabbitDataItem.thumbnail);
+            imageLoader.displayImage(rabbitDataItem.thumbnail, holder.thumbnail, options);
         //end bind data to view
 
         return vi;

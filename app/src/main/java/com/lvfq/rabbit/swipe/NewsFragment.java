@@ -26,6 +26,7 @@ import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.lvfq.rabbit.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
@@ -66,7 +67,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         rabbitAdapter=new RabbitNewsAdapter(getActivity());
     }
 
@@ -121,6 +121,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
+            rabbitData=((MainApplication)getActivity().getApplication()).getListRabbitDataItem_NEWS();
             if(rabbitData==null) {
                 String result = HttpRequest.sendGet(getString(R.string.news_server), "count=10");
                 if (result != null) {
@@ -136,6 +137,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = new RabbitDataItem();
                             rabbitDataItem.title = oneRabbit.getString("title");
+                            rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
                             rabbitDataItem.maintext = oneRabbit.getString("content");
                             rabbitDataItem.timetext = oneRabbit.getString("time");
                             rabbitData.add(rabbitDataItem);
@@ -167,6 +169,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = new RabbitDataItem();
                             rabbitDataItem.title = oneRabbit.getString("title");
+                            rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
                             rabbitDataItem.maintext = oneRabbit.getString("content");
                             rabbitDataItem.timetext = oneRabbit.getString("time");
                             rabbitData.add(i, rabbitDataItem);
@@ -199,6 +202,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
+            rabbitData=((MainApplication)getActivity().getApplication()).getListRabbitDataItem_NEWS();
             String result = HttpRequest.sendGet(getString(R.string.news_server), "count=5&max_id="+MAX_ID);
             if (result != null) {
                 Log.d(TAG, "into add rabit item");
@@ -212,6 +216,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                         JSONObject oneRabbit = jsonArray.getJSONObject(i);
                         RabbitDataItem rabbitDataItem = new RabbitDataItem();
                         rabbitDataItem.title = oneRabbit.getString("title");
+                        rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
                         rabbitDataItem.maintext = oneRabbit.getString("content");
                         rabbitDataItem.timetext = oneRabbit.getString("time");
                         rabbitData.add(rabbitDataItem);

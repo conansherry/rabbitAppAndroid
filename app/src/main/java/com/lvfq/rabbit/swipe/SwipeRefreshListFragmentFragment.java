@@ -16,6 +16,7 @@
 
 package com.lvfq.rabbit.swipe;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
@@ -27,6 +28,9 @@ import android.widget.Toast;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
 import java.util.List;
 import java.util.Random;
