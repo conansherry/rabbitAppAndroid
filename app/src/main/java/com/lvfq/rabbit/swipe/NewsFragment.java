@@ -16,6 +16,7 @@
 
 package com.lvfq.rabbit.swipe;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -140,6 +141,15 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                             rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
                             rabbitDataItem.maintext = oneRabbit.getString("content");
                             rabbitDataItem.timetext = oneRabbit.getString("time");
+
+                            if(!oneRabbit.isNull("pics")) {
+                                JSONArray extraArray = oneRabbit.getJSONArray("pics");
+                                rabbitDataItem.extra=new ArrayList<String>();
+                                for(int j = 0; j < extraArray.length(); j++) {
+                                    rabbitDataItem.extra.add(extraArray.getString(j));
+                                }
+                            }
+
                             rabbitData.add(rabbitDataItem);
 
                             if(i==0) {
@@ -172,6 +182,15 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                             rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
                             rabbitDataItem.maintext = oneRabbit.getString("content");
                             rabbitDataItem.timetext = oneRabbit.getString("time");
+
+                            if(!oneRabbit.isNull("pics")) {
+                                JSONArray extraArray = oneRabbit.getJSONArray("pics");
+                                rabbitDataItem.extra=new ArrayList<String>();
+                                for(int j = 0; j < extraArray.length(); j++) {
+                                    rabbitDataItem.extra.add(extraArray.getString(j));
+                                }
+                            }
+
                             rabbitData.add(i, rabbitDataItem);
 
                             if(i==0) {
@@ -219,6 +238,15 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                         rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
                         rabbitDataItem.maintext = oneRabbit.getString("content");
                         rabbitDataItem.timetext = oneRabbit.getString("time");
+
+                        if(!oneRabbit.isNull("pics")) {
+                            JSONArray extraArray = oneRabbit.getJSONArray("pics");
+                            rabbitDataItem.extra=new ArrayList<String>();
+                            for(int j = 0; j < extraArray.length(); j++) {
+                                rabbitDataItem.extra.add(extraArray.getString(j));
+                            }
+                        }
+
                         rabbitData.add(rabbitDataItem);
 
                         if(i==jsonArray.length()-1) {

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.util.Log;
 
@@ -51,7 +52,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         public TextView title=null;
         public TextView maintext=null;
         public TextView timetext=null;
-        public ImageView extraInfo=null;
+        public RelativeLayout extraInfo=null;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -67,6 +68,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             holder.maintext = (TextView) vi.findViewById(R.id.maintext);
             holder.timetext = (TextView) vi.findViewById(R.id.timetext);
             holder.thumbnail = (ImageView) vi.findViewById(R.id.thumbnail);
+            holder.extraInfo = (RelativeLayout) vi.findViewById(R.id.gridimage);
 
             vi.setTag(holder);
 
@@ -88,6 +90,12 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null)
             imageLoader.displayImage(rabbitDataItem.thumbnail, holder.thumbnail, options);
+        if(rabbitDataItem.extra!=null) {
+            holder.extraInfo.removeAllViews();
+            ImageView imageView = new ImageView(activity);
+            imageLoader.displayImage(rabbitDataItem.extra.get(1), imageView);
+            holder.extraInfo.addView(imageView);
+        }
         //end bind data to view
 
         return vi;

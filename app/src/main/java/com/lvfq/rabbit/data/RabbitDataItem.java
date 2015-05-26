@@ -10,7 +10,7 @@ public class RabbitDataItem {
     public String title=null;
     public String maintext=null;
     public String timetext=null;
-    public List<Bitmap> extra=null;
+    public List<String> extra=null;
 
     public java.sql.Date time=null;
 }

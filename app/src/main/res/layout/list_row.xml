@@ -41,12 +41,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="我是标题"
+                android:text="我是标题我是标题我是标题我是标题我是标题我是标题"
                 android:id="@+id/title"
                 android:layout_alignParentLeft="true"
                 android:padding="3dp"
                 android:textSize="14dp"
                 android:textStyle="bold"
+                android:layout_toLeftOf="@+id/timetext"
                 android:textColor="@color/black" />
 
             <TextView
@@ -68,17 +69,27 @@
             android:layout_height="wrap_content"
             android:text="兔子的信息兔子的信息兔子的信息兔子的信息兔子的信息兔子的信息"
             android:id="@+id/maintext"
-            android:textSize="12dp"
+            android:textSize="14dp"
             android:padding="2dp"
             android:textColor="@color/black" />
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_toRightOf="@+id/thumbnailimage"
+        android:padding="2dip"
+        android:id="@+id/gridimage">
+
+    </RelativeLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
+        android:layout_below="@+id/gridimage"
         android:paddingTop="1dp">
 
         <TextView
@@ -90,7 +101,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:textStyle="bold"
-            android:textSize="13dp" />
+            android:textSize="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,7 +112,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:textStyle="bold"
-            android:textSize="13dp" />
+            android:textSize="14dp" />
     </LinearLayout>
 
 </RelativeLayout>
