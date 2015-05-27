@@ -33,6 +33,9 @@ import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
 import com.lvfq.rabbit.util.HttpRequest;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,7 +79,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         super.onViewCreated(view, savedInstanceState);
 
         final ListView listView = getListView();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, new AbsListView.OnScrollListener() {
 
             @Override
             public void onScrollStateChanged(AbsListView arg0, int arg1) {
@@ -92,7 +95,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                     new NewsLoadMoreBackgroundTask().execute();
                 }
             }
-        });
+        }));
     }
 
     @Override

@@ -18,7 +18,9 @@ import com.lvfq.rabbit.data.RabbitDataItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
 import java.text.SimpleDateFormat;
@@ -31,16 +33,47 @@ public abstract class RabbitAdapter extends BaseAdapter {
     //end data
 
     protected ImageLoader imageLoader;
-    protected DisplayImageOptions options;
+    protected DisplayImageOptions thumbnailOptions;
+    protected DisplayImageOptions imageOptions;
 
     public RabbitAdapter() {
         imageLoader = ImageLoader.getInstance();
-        options = new DisplayImageOptions.Builder()
-                    .cacheInMemory(true)
-                    .cacheOnDisk(true)
-                    .imageScaleType(ImageScaleType.NONE)
-                    .displayer(new RoundedBitmapDisplayer(90))
-                    .build();
+        thumbnailOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.blank)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .preProcessor(new BitmapProcessor() {
+                    @Override
+                    public Bitmap process(Bitmap bitmap) {
+                        Log.d("TAG", "image process");
+                        return Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+                    }
+                })
+                .displayer(new RoundedBitmapDisplayer(90))
+                .build();
+
+        imageOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.blank)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .preProcessor(new BitmapProcessor() {
+                    @Override
+                    public Bitmap process(Bitmap bitmap) {
+                        Log.d("TAG", "image process");
+                        int width = bitmap.getWidth();
+                        int height = bitmap.getHeight();
+                        if (width > height) {
+                            int x = (width - height) / 2;
+                            return Bitmap.createBitmap(bitmap, x, 0, height, height);
+                        } else {
+                            int y = (height - width) / 2;
+                            return Bitmap.createBitmap(bitmap, 0, y, width, width);
+                        }
+                    }
+                })
+                .build();
     }
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
@@ -72,4 +105,5 @@ public abstract class RabbitAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
 }

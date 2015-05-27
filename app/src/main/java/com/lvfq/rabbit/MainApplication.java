@@ -28,6 +28,8 @@ public class MainApplication extends Application {
         Log.d(TAG, "onCreate");
 
         initImageLoader(getApplicationContext());
+        ImageLoader.getInstance().clearMemoryCache();
+        ImageLoader.getInstance().clearDiskCache();
     }
 
     public void setListRabbitDataItem_NEWS(List<RabbitDataItem> rabbitData) {

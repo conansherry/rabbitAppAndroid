@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         ViewHolder holder=null;
+        //convertView=null;
         if(convertView==null) {
             //The view is not a recycled one: we have to inflate
             vi = inflater.inflate(R.layout.list_row, null);
@@ -89,12 +91,34 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null)
-            imageLoader.displayImage(rabbitDataItem.thumbnail, holder.thumbnail, options);
+            imageLoader.displayImage(rabbitDataItem.thumbnail, holder.thumbnail, thumbnailOptions);
+        holder.extraInfo.removeAllViews();
         if(rabbitDataItem.extra!=null) {
-            holder.extraInfo.removeAllViews();
-            ImageView imageView = new ImageView(activity);
-            imageLoader.displayImage(rabbitDataItem.extra.get(1), imageView);
-            holder.extraInfo.addView(imageView);
+            ImageView[] arrayOfImages=new ImageView[rabbitDataItem.extra.size()];
+            int offset = 1;
+            for(int i=0; i<Math.ceil(rabbitDataItem.extra.size() / 3.0); i++) {
+                int jCount=3;
+                if(i==(Math.ceil(rabbitDataItem.extra.size() / 3.0)-1) && rabbitDataItem.extra.size()%3!=0)
+                    jCount=rabbitDataItem.extra.size()%3;
+                for( int j=0; j<jCount; j++) {
+                    arrayOfImages[i*3+j]=new ImageView(activity);
+                    arrayOfImages[i*3+j].setId(offset + i * 3 + j);
+                    arrayOfImages[i*3+j].setTag(rabbitDataItem.extra.get(i*3+j).replace("thumbnail", "small"));
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) activity.getResources().getDimension(R.dimen.imageview_height), (int) activity.getResources().getDimension(R.dimen.imageview_height));
+                    imageLoader.displayImage(rabbitDataItem.extra.get(i*3+j).replace("thumbnail", "small"), arrayOfImages[i*3+j], imageOptions);
+                    params.setMargins(0,0,8,8);
+                    if(i==0 && j==0) {
+                        holder.extraInfo.addView(arrayOfImages[i*3+j], params);
+                    }
+                    else {
+                        if(i!=0)
+                            params.addRule(RelativeLayout.BELOW, arrayOfImages[(i-1)*3+j].getId());
+                        if(j!=0)
+                            params.addRule(RelativeLayout.RIGHT_OF, arrayOfImages[i*3+j-1].getId());
+                        holder.extraInfo.addView(arrayOfImages[i*3+j], params);
+                    }
+                }
+            }
         }
         //end bind data to view
 
