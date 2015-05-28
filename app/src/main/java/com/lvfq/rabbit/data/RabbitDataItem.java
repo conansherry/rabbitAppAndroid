@@ -1,6 +1,7 @@
 package com.lvfq.rabbit.data;
 
 import android.graphics.Bitmap;
+import android.text.SpannableString;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ public class RabbitDataItem {
     public String thumbnail=null;
     public String title=null;
     public String maintext=null;
+    public SpannableString spannableMaintext=null;
     public String timetext=null;
     public List<String> extra=null;
 

@@ -9,6 +9,7 @@ import java.util.Comparator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,8 +87,10 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         RabbitDataItem rabbitDataItem=getItem(position);
         if(rabbitDataItem.title!=null)
             holder.title.setText(rabbitDataItem.title);
-        if(rabbitDataItem.maintext!=null)
-            holder.maintext.setText(rabbitDataItem.maintext);
+        if(rabbitDataItem.spannableMaintext!=null) {
+            holder.maintext.setMovementMethod(LinkMovementMethod.getInstance());
+            holder.maintext.setText(rabbitDataItem.spannableMaintext);
+        }
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null)

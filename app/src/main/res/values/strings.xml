@@ -19,4 +19,9 @@
     <string name="dance_server">http://120.25.122.107:1337/</string>
 
     <string name="no_network_connection_toast">小兔子离线了</string>
+
+    <string name="心">heart</string>
+    <string name="喵喵">cat</string>
+    <string name="可爱">lovely</string>
+    <string name="doge">doge</string>
 </resources>
