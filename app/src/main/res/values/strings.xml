@@ -8,6 +8,9 @@
     <string name="info">兔子の信息</string>
     <string name="extra">兔子の其它</string>
 
+    <string name="newrabbit">新的小兔子出现了</string>
+    <string name="norabbit">小兔子回家吃饭了</string>
+
     <string name="menu_refresh">Refresh</string>
 
     <string name="menu_color_scheme">Color scheme</string>

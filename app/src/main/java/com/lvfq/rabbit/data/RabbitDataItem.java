@@ -14,5 +14,9 @@ public class RabbitDataItem {
     public String timetext=null;
     public List<String> extra=null;
 
-    public java.sql.Date time=null;
+    //转发微博
+    public String retTitle=null;
+    public String retMaintext=null;
+    public SpannableString retSpannableMaintext=null;
+    public List<String> retExtra=null;
 }

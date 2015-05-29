@@ -129,9 +129,9 @@ public abstract class SwipeRefreshListFragmentFragment extends SwipeRefreshListF
         // Stop the refreshing indicator
         setRefreshing(false);
         if(hasMore)
-            Toast.makeText(getActivity(),"新的小兔子出现了",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),getString(R.string.newrabbit),Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(getActivity(),"小兔子回家吃饭了",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),getString(R.string.norabbit),Toast.LENGTH_SHORT).show();
     }
     // END_INCLUDE (refresh_complete)
 }

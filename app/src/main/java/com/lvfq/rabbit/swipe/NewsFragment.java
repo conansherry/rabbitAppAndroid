@@ -134,6 +134,52 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
     }
     // END_INCLUDE (initiate_refresh)
 
+    private void converSpannableText(String maintext, SpannableString spannableString) {
+        //找表情
+        Matcher expressionMatcher= expressionPattern.matcher(maintext);
+        while(expressionMatcher.find()) {
+            Log.d(TAG, expressionMatcher.group(1) + " start:" + expressionMatcher.start() + " end:" + expressionMatcher.end());
+            int id=-1;
+            try {
+                Field stringFiled=(Field)R.string.class.getDeclaredField(expressionMatcher.group(1));
+                int strId=stringFiled.getInt(R.string.class);
+                String expressionStr=getString(strId);
+                Field field=(Field)R.drawable.class.getDeclaredField(expressionStr);
+                id=field.getInt(R.drawable.class);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            if(id!=-1) {
+                Drawable expression = ResourcesCompat.getDrawable(getResources(), id, null);
+                expression.setBounds(0, 0, expression.getIntrinsicWidth(), expression.getIntrinsicHeight());
+                ImageSpan span = new ImageSpan(expression, ImageSpan.ALIGN_BASELINE);
+                spannableString.setSpan(span, expressionMatcher.start(), expressionMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+        //找Url
+        Matcher urlMatcher=urlPattern.matcher(maintext);
+        while(urlMatcher.find()) {
+            Log.d(TAG, urlMatcher.group(0) + " start:" + urlMatcher.start() + " end:" + urlMatcher.end());
+            spannableString.setSpan(new URLSpan(urlMatcher.group(0)), urlMatcher.start(), urlMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        //找at
+        Matcher atMatcher=atPattern.matcher(maintext);
+        while(atMatcher.find()) {
+            Log.d(TAG, atMatcher.group(0) + " start:" + atMatcher.start() + " end:" + atMatcher.end());
+            spannableString.setSpan(new URLSpan("http://weibo.com/n/"+atMatcher.group(1)+"?from=feed&loc=at"), atMatcher.start(), atMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        //找话题
+        Matcher huatiMatcher=huatiPattern.matcher(maintext);
+        while(huatiMatcher.find()) {
+            Log.d(TAG, huatiMatcher.group(0) + " start:" + huatiMatcher.start() + " end:" + huatiMatcher.end());
+            spannableString.setSpan(new URLSpan("http://huati.weibo.com/k/"+huatiMatcher.group(1)), huatiMatcher.start(), huatiMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+    }
+
     private RabbitDataItem createRabbitDataItem(JSONObject oneRabbit) {
         try {
             RabbitDataItem rabbitDataItem = new RabbitDataItem();
@@ -141,49 +187,8 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
             rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
             rabbitDataItem.maintext = oneRabbit.getString("content");
             rabbitDataItem.spannableMaintext=new SpannableString(rabbitDataItem.maintext);
-            //找表情
-            Matcher expressionMatcher= expressionPattern.matcher(rabbitDataItem.maintext);
-            while(expressionMatcher.find()) {
-                Log.d(TAG, expressionMatcher.group(1) + " start:" + expressionMatcher.start() + " end:" + expressionMatcher.end());
-                int id=-1;
-                try {
-                    Field stringFiled=(Field)R.string.class.getDeclaredField(expressionMatcher.group(1));
-                    int strId=stringFiled.getInt(R.string.class);
-                    String expressionStr=getString(strId);
-                    Field field=(Field)R.drawable.class.getDeclaredField(expressionStr);
-                    id=field.getInt(R.drawable.class);
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                if(id!=-1) {
-                    Drawable expression = ResourcesCompat.getDrawable(getResources(), id, null);
-                    expression.setBounds(0, 0, expression.getIntrinsicWidth(), expression.getIntrinsicHeight());
-                    ImageSpan span = new ImageSpan(expression, ImageSpan.ALIGN_BASELINE);
-                    rabbitDataItem.spannableMaintext.setSpan(span, expressionMatcher.start(), expressionMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-            //找Url
-            Matcher urlMatcher=urlPattern.matcher(rabbitDataItem.maintext);
-            while(urlMatcher.find()) {
-                Log.d(TAG, urlMatcher.group(0) + " start:" + urlMatcher.start() + " end:" + urlMatcher.end());
-                rabbitDataItem.spannableMaintext.setSpan(new URLSpan(urlMatcher.group(0)), urlMatcher.start(), urlMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
 
-            //找at
-            Matcher atMatcher=atPattern.matcher(rabbitDataItem.maintext);
-            while(atMatcher.find()) {
-                Log.d(TAG, atMatcher.group(0) + " start:" + atMatcher.start() + " end:" + atMatcher.end());
-                rabbitDataItem.spannableMaintext.setSpan(new URLSpan("http://weibo.com/n/"+atMatcher.group(1)+"?from=feed&loc=at"), atMatcher.start(), atMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-
-            //找话题
-            Matcher huatiMatcher=huatiPattern.matcher(rabbitDataItem.maintext);
-            while(huatiMatcher.find()) {
-                Log.d(TAG, huatiMatcher.group(0) + " start:" + huatiMatcher.start() + " end:" + huatiMatcher.end());
-                rabbitDataItem.spannableMaintext.setSpan(new URLSpan("http://huati.weibo.com/k/"+huatiMatcher.group(1)), huatiMatcher.start(), huatiMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+            converSpannableText(rabbitDataItem.maintext, rabbitDataItem.spannableMaintext);
 
             rabbitDataItem.timetext = oneRabbit.getString("time");
 
@@ -194,6 +199,23 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                     rabbitDataItem.extra.add(extraArray.getString(j));
                 }
             }
+
+            //ret
+            if(!oneRabbit.isNull("extra")) {
+                JSONObject retObject = oneRabbit.getJSONObject("extra");
+                rabbitDataItem.retTitle = retObject.getString("title");
+                rabbitDataItem.retMaintext = retObject.getString("content");
+                rabbitDataItem.retSpannableMaintext = new SpannableString(rabbitDataItem.retMaintext);
+                converSpannableText(rabbitDataItem.retMaintext, rabbitDataItem.retSpannableMaintext);
+                if(!retObject.isNull("pics")) {
+                    JSONArray retExtraArray = retObject.getJSONArray("pics");
+                    rabbitDataItem.retExtra = new ArrayList<String>();
+                    for(int j=0; j<retExtraArray.length(); j++) {
+                        rabbitDataItem.retExtra.add(retExtraArray.getString(j));
+                    }
+                }
+            }
+
             return rabbitDataItem;
         } catch (JSONException e) {
             Log.e(TAG, "JSONException");
