@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -100,6 +101,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         if(rabbitDataItem.thumbnail!=null)
             imageLoader.displayImage(rabbitDataItem.thumbnail, holder.thumbnail, thumbnailOptions);
         holder.extraInfo.removeAllViews();
+        holder.extraInfo.setBackgroundColor(Color.WHITE);
         if(rabbitDataItem.extra!=null) {
             ImageView[] arrayOfImages=new ImageView[rabbitDataItem.extra.size()];
             int offset = 1;
