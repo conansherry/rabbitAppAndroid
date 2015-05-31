@@ -4,12 +4,13 @@
     <string name="loadinfo">萌萌哒载入中</string>
     <string name="action_settings">设置</string>
 
-    <string name="video">兔子の舞蹈</string>
-    <string name="info">兔子の信息</string>
-    <string name="extra">兔子の其它</string>
+    <string name="video">ウサギのダンス</string>
+    <string name="info">ウサギの情報</string>
+    <string name="extra">個人設定</string>
 
     <string name="newrabbit">新的小兔子出现了</string>
     <string name="norabbit">小兔子回家吃饭了</string>
+    <string name="no_network_connection_toast">小兔子离线了</string>
 
     <string name="menu_refresh">Refresh</string>
 
@@ -21,8 +22,7 @@
     <string name="news_server">http://120.25.122.107:8888/getNews</string>
     <string name="dance_server">https://openapi.youku.com/v2/videos/by_user.json</string>
 
-    <string name="no_network_connection_toast">小兔子离线了</string>
-
+    <!-- 表情中文和文件名映射 -->
     <string name="心">heart</string>
     <string name="喵喵">cat</string>
     <string name="可爱">lovely</string>

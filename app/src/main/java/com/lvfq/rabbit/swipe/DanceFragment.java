@@ -118,7 +118,7 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
             rabbitDataItem.title = getString(R.string.app_name);
             rabbitDataItem.maintext = oneRabbit.getString("title");
             rabbitDataItem.retTitle = oneRabbit.getString("id");
-            rabbitDataItem.timetext = oneRabbit.getString("published").substring(5);
+            rabbitDataItem.timetext = oneRabbit.getString("published");
             rabbitDataItem.thumbnail = oneRabbit.getString("thumbnail");
 
             return rabbitDataItem;
