@@ -15,7 +15,7 @@ public class RabbitDataItem {
     public List<String> extra=null;
 
     //转发微博
-    public String retTitle=null;
+    public String retTitle=null;//给danceItem复用ID
     public String retMaintext=null;
     public SpannableString retSpannableMaintext=null;
     public List<String> retExtra=null;

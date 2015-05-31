@@ -2,14 +2,17 @@ package com.lvfq.rabbit.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lvfq.rabbit.ImageActivity;
 import com.lvfq.rabbit.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.data.RabbitDataItem;
@@ -49,7 +52,7 @@ public class RabbitDanceAdapter extends RabbitAdapter {
         public TextView title=null;
         public TextView maintext=null;
         public TextView timetext=null;
-        public ImageView extraInfo=null;
+        public RelativeLayout extraInfo=null;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -65,6 +68,9 @@ public class RabbitDanceAdapter extends RabbitAdapter {
             holder.maintext = (TextView) vi.findViewById(R.id.maintext);
             holder.timetext = (TextView) vi.findViewById(R.id.timetext);
             holder.thumbnail = (ImageView) vi.findViewById(R.id.thumbnail);
+            holder.extraInfo = (RelativeLayout) vi.findViewById(R.id.gridimage);
+
+            holder.thumbnail.setImageResource(R.drawable.video_thumb);
 
             vi.setTag(holder);
 
@@ -84,8 +90,17 @@ public class RabbitDanceAdapter extends RabbitAdapter {
             holder.maintext.setText(rabbitDataItem.maintext);
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
-//        if(rabbitDataItem.thumbnail!=null)
-//            holder.thumbnail.setImageBitmap(rabbitDataItem.thumbnail);
+        if(rabbitDataItem.thumbnail!=null) {
+            ImageView imageView=new ImageView(activity);
+            imageLoader.displayImage(rabbitDataItem.thumbnail, imageView, normalOptions);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            RelativeLayout.LayoutParams paramsPics = new RelativeLayout.LayoutParams((int) activity.getResources().getDimension(R.dimen.dance_imageview_width), (int) activity.getResources().getDimension(R.dimen.dance_imageview_height));
+            holder.extraInfo.addView(imageView, paramsPics);
+        }
         //end bind data to view
 
         return vi;

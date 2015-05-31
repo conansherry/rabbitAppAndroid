@@ -35,9 +35,11 @@ public abstract class RabbitAdapter extends BaseAdapter {
     protected ImageLoader imageLoader;
     protected DisplayImageOptions thumbnailOptions;
     protected DisplayImageOptions imageOptions;
+    protected DisplayImageOptions normalOptions;
 
     public RabbitAdapter() {
         imageLoader = ImageLoader.getInstance();
+
         thumbnailOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.blank)
                 .cacheInMemory(true)
@@ -73,6 +75,13 @@ public abstract class RabbitAdapter extends BaseAdapter {
                         }
                     }
                 })
+                .build();
+
+        normalOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.blank_small)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
     }
 

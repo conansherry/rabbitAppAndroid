@@ -57,10 +57,12 @@ public class SlidingTabsColorsFragment extends Fragment {
             mIndicatorColor = indicatorColor;
             mDividerColor = dividerColor;
 
-            if(type==1)
+            if(type==0)
+                mFragment=new DanceFragment();
+            else if(type==1)
                 mFragment=new NewsFragment();
             else
-                mFragment=new DanceFragment();
+                mFragment=new ContentFragment();
 
             Log.d(TAG, "RabbitPagerItem init");
         }
@@ -143,7 +145,7 @@ public class SlidingTabsColorsFragment extends Fragment {
                 getString(R.string.extra), // Title
                 Color.YELLOW, // Indicator color
                 Color.GRAY, // Divider color
-                1
+                2
         ));
         // END_INCLUDE (populate_tabs)
     }

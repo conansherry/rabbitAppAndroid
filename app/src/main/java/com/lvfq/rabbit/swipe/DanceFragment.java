@@ -19,23 +19,28 @@ package com.lvfq.rabbit.swipe;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.util.Log;
-import android.graphics.BitmapFactory;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ListView;
 
+import com.lvfq.rabbit.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitDanceAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
 import com.lvfq.rabbit.util.HttpRequest;
-import com.lvfq.rabbit.util.Base64;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 
 /**
  * A sample which shows how to use {@link SwipeRefreshLayout} within a
@@ -54,13 +59,39 @@ import java.io.IOException;
  */
 public class DanceFragment extends SwipeRefreshListFragmentFragment {
 
-    private static final int LIST_ITEM_COUNT = 5;
+    private static final String TAG="DanceFragment";
+
+    private List<RabbitDataItem> rabbitData=null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         rabbitAdapter=new RabbitDanceAdapter(getActivity());
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final ListView listView = getListView();
+        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView arg0, int arg1) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //Log.d(TAG, "first:"+firstVisibleItem+" visible:"+visibleItemCount+" total:"+totalItemCount+" last:"+listView.getLastVisiblePosition());
+                if (listView.getLastVisiblePosition() >=0 && listView.getLastVisiblePosition() == listView.getAdapter().getCount() - 1
+                        && listView.getChildAt(listView.getChildCount() - 1).getBottom() <= listView.getHeight()) {
+                    Log.d(TAG, "load more");
+                    new DanceLoadMoreBackgroundTask().execute();
+                }
+            }
+        }));
     }
 
     @Override
@@ -77,38 +108,81 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
         /**
          * Execute the background task, which uses {@link AsyncTask} to load the data.
          */
-        new DummyBackgroundTask().execute();
+        new DanceRefreshBackgroundTask().execute();
     }
     // END_INCLUDE (initiate_refresh)
+
+    private RabbitDataItem createRabbitDataItem(JSONObject oneRabbit) {
+        try {
+            RabbitDataItem rabbitDataItem = new RabbitDataItem();
+            rabbitDataItem.title = getString(R.string.app_name);
+            rabbitDataItem.maintext = oneRabbit.getString("title");
+            rabbitDataItem.retTitle = oneRabbit.getString("id");
+            rabbitDataItem.timetext = oneRabbit.getString("published").substring(5);
+            rabbitDataItem.thumbnail = oneRabbit.getString("thumbnail");
+
+            return rabbitDataItem;
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException");
+            return null;
+        }
+    }
 
     /**
      * Dummy {@link AsyncTask} which simulates a long running task to fetch new cheeses.
      */
-    private class DummyBackgroundTask extends AsyncTask<Void, Void, List<RabbitDataItem>> {
-        private static final String TAG="BackgoundTask";
+    private class DanceRefreshBackgroundTask extends AsyncTask<Void, Void, List<RabbitDataItem>> {
+        private static final String TAG="RefreshDance";
+        private Boolean hasMore=false;
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            List<RabbitDataItem> rabbitData=null;
-            String result=HttpRequest.sendGet(getString(R.string.dance_server), "");
-            if(result!=null) {
-                Log.d(TAG,"into add rabit item");
-                rabbitData=new ArrayList<RabbitDataItem>();
-                try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    JSONArray jsonArray = jsonObject.getJSONArray("rabbitData");
-                    for(int i=0;i<jsonArray.length();i++) {
-                        JSONObject oneRabbit=jsonArray.getJSONObject(i);
-                        RabbitDataItem rabbitDataItem=new RabbitDataItem();
-                        rabbitDataItem.title=oneRabbit.getString("title");
-                        rabbitDataItem.maintext=oneRabbit.getString("maintext");
-                        rabbitDataItem.timetext=oneRabbit.getString("timetext");
-                        rabbitData.add(rabbitDataItem);
+            rabbitData=((MainApplication)getActivity().getApplication()).getListRabbitDataItem_DANCE();
+            if(rabbitData==null) {
+                String result = HttpRequest.sendGet(getString(R.string.dance_server), "client_id=459086bb819ff72d&user_id=UOTcwNjUxMjQ=&count=50&page=1");
+                if (result != null) {
+                    Log.d(TAG, "into add rabit item. empty data.");
+                    rabbitData = new ArrayList<RabbitDataItem>();
+                    try {
+                        JSONObject jsonObject=new JSONObject(result);
+                        JSONArray jsonArray=jsonObject.getJSONArray("videos");
+                        if(jsonArray.length()>0)
+                            hasMore=true;
+                        else
+                            hasMore=false;
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject oneRabbit = jsonArray.getJSONObject(i);
+                            RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
+                            rabbitData.add(rabbitDataItem);
+                        }
+                    } catch (JSONException e) {
+                        rabbitData = null;
+                        Log.e(TAG, "JSONException");
                     }
                 }
-                catch (JSONException e) {
-                    rabbitData=null;
-                    Log.e(TAG, "JSONException");
+            }
+            else {
+                String result = HttpRequest.sendGet(getString(R.string.dance_server), "client_id=459086bb819ff72d&user_id=UOTcwNjUxMjQ=&count=50&page=1");
+                if (result != null) {
+                    Log.d(TAG, "into add rabit item");
+                    try {
+                        JSONObject jsonObject=new JSONObject(result);
+                        JSONArray jsonArray=jsonObject.getJSONArray("videos");
+                        hasMore=false;
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject oneRabbit = jsonArray.getJSONObject(i);
+                            if(oneRabbit.getString("id").equals(rabbitData.get(0).retTitle)) {
+                                Log.d(TAG, "break");
+                                break;
+                            }
+                            RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
+                            rabbitData.add(0, rabbitDataItem);
+                            hasMore=true;
+                        }
+                    } catch (JSONException e) {
+                        rabbitData = null;
+                        Log.e(TAG, "JSONException");
+                    }
                 }
             }
             // Return rabbitdata
@@ -119,7 +193,69 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
         protected void onPostExecute(List<RabbitDataItem> result) {
             super.onPostExecute(result);
             // Tell the Fragment that the refresh has completed
-            onRefreshComplete(result, true);
+            onRefreshComplete(result, hasMore);
+        }
+    }
+
+    private class DanceLoadMoreBackgroundTask extends AsyncTask<Void, Void, List<RabbitDataItem>> {
+        private static final String TAG="LoadMoreNews";
+        private Boolean hasMore=false;
+        @Override
+        protected List<RabbitDataItem> doInBackground(Void... params) {
+            //request the server to get rabbit data
+            int pageId=1;
+            int total=0;
+            rabbitData=((MainApplication)getActivity().getApplication()).getListRabbitDataItem_DANCE();
+            String result = HttpRequest.sendGet(getString(R.string.dance_server), "client_id=459086bb819ff72d&user_id=UOTcwNjUxMjQ=&count=100&page="+pageId);
+            JSONObject jsonObject=null;
+            if (result != null) {
+                try {
+                    jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("total") == rabbitData.size()) {
+                        hasMore = false;
+                    } else {
+                        hasMore = true;
+                        rabbitData.clear();
+                    }
+                } catch (JSONException e) {
+                    rabbitData = null;
+                    hasMore=false;
+                    Log.e(TAG, "JSONException");
+                }
+            }
+            while(hasMore) {
+                if (result != null) {
+                    Log.d(TAG, "into add rabit item");
+                    try {
+                        JSONArray jsonArray=jsonObject.getJSONArray("videos");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject oneRabbit = jsonArray.getJSONObject(i);
+                            RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
+                            rabbitData.add(rabbitDataItem);
+                            total++;
+                        }
+                        if(total==jsonObject.getInt("total"))
+                            break;
+
+                        pageId++;
+                        result = HttpRequest.sendGet(getString(R.string.dance_server), "client_id=459086bb819ff72d&user_id=UOTcwNjUxMjQ=&count=100&page="+pageId);
+                        jsonObject=new JSONObject(result);
+                    } catch (JSONException e) {
+                        rabbitData = null;
+                        Log.e(TAG, "JSONException");
+                        break;
+                    }
+                }
+            }
+            // Return rabbitdata
+            return rabbitData;
+        }
+
+        @Override
+        protected void onPostExecute(List<RabbitDataItem> result) {
+            super.onPostExecute(result);
+            // Tell the Fragment that the refresh has completed
+            onRefreshComplete(result, hasMore);
         }
     }
 }
