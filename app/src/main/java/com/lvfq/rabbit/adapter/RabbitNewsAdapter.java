@@ -26,14 +26,13 @@ public class RabbitNewsAdapter extends RabbitAdapter {
 
     private static final String TAG="RabbitNewsAdapter";
 
-    private Activity activity;
     private static LayoutInflater inflater;
 
     private SimpleDateFormat abstractTimeFormat;
     private SimpleDateFormat detailTimeFormat;
 
     public RabbitNewsAdapter(Activity a) {
-        activity = a;
+        super(a);
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         abstractTimeFormat = new SimpleDateFormat("MM-dd");
         detailTimeFormat = new SimpleDateFormat("HH-mm");

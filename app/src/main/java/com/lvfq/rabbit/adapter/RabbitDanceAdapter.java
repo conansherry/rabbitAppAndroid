@@ -23,14 +23,13 @@ public class RabbitDanceAdapter extends RabbitAdapter {
 
     private static final String TAG="RabbitDanceAdapter";
 
-    private Activity activity;
     private static LayoutInflater inflater;
 
     private SimpleDateFormat abstractTimeFormat;
     private SimpleDateFormat detailTimeFormat;
 
     public RabbitDanceAdapter(Activity a) {
-        activity = a;
+        super(a);
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         abstractTimeFormat = new SimpleDateFormat("MM-dd");
         detailTimeFormat = new SimpleDateFormat("HH-mm");
@@ -90,7 +89,7 @@ public class RabbitDanceAdapter extends RabbitAdapter {
             holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null) {
             ImageView imageView=new ImageView(activity);
-            imageLoader.displayImage(rabbitDataItem.thumbnail, imageView, normalOptions);
+            imageLoader.displayImage(rabbitDataItem.thumbnail, imageView, videoOptions);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
