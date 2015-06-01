@@ -154,6 +154,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             retMaintext.setText(rabbitDataItem.retSpannableMaintext);
             retMaintext.setId(ViewId.getInstance().getUniqueId());
             retMaintext.setTextColor(activity.getResources().getColor(R.color.black));
+            retMaintext.setMovementMethod(LinkMovementMethod.getInstance());
             RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(8,4,0,4);
             params.addRule(RelativeLayout.BELOW, retTitle.getId());
