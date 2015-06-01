@@ -7,18 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lvfq.rabbit.ImageActivity;
-import com.lvfq.rabbit.MainApplication;
+import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
+import com.lvfq.rabbit.activity.PlayerActivity;
 import com.lvfq.rabbit.data.RabbitDataItem;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RabbitDanceAdapter extends RabbitAdapter {
@@ -83,7 +81,7 @@ public class RabbitDanceAdapter extends RabbitAdapter {
             holder = (ViewHolder)vi.getTag();
             Log.d(TAG, "view recycled");
         }
-        RabbitDataItem rabbitDataItem=getItem(position);
+        final RabbitDataItem rabbitDataItem=getItem(position);
         if(rabbitDataItem.title!=null)
             holder.title.setText(rabbitDataItem.title);
         if(rabbitDataItem.maintext!=null)
@@ -96,6 +94,9 @@ public class RabbitDanceAdapter extends RabbitAdapter {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent=new Intent(activity, PlayerActivity.class);
+                    intent.putExtra("vid", rabbitDataItem.retTitle);
+                    activity.startActivity(intent);
                 }
             });
             RelativeLayout.LayoutParams paramsPics = new RelativeLayout.LayoutParams((int) activity.getResources().getDimension(R.dimen.dance_imageview_width), (int) activity.getResources().getDimension(R.dimen.dance_imageview_height));

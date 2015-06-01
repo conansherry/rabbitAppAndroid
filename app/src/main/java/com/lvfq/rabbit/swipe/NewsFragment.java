@@ -32,7 +32,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.support.v4.content.res.ResourcesCompat;
 
-import com.lvfq.rabbit.MainApplication;
+import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;

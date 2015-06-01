@@ -19,7 +19,6 @@ package com.lvfq.rabbit.swipe;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.SpannableString;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.util.Log;
@@ -27,7 +26,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.lvfq.rabbit.MainApplication;
+import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitDanceAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;

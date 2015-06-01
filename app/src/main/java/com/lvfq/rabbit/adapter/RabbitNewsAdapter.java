@@ -1,29 +1,23 @@
 package com.lvfq.rabbit.adapter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.util.Log;
 
-import com.lvfq.rabbit.ImageActivity;
-import com.lvfq.rabbit.MainApplication;
+import com.lvfq.rabbit.activity.ImageActivity;
+import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.data.*;
 import com.lvfq.rabbit.util.ViewId;
