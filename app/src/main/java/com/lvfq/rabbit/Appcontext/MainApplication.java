@@ -2,18 +2,23 @@ package com.lvfq.rabbit.Appcontext;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 import android.content.Context;
 
+import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.data.RabbitDataItem;
 
+import com.lvfq.rabbit.util.SerializeTool;
+import com.lvfq.rabbit.util.SpannableStringFactory;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.youku.player.YoukuPlayerBaseApplication;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -28,6 +33,29 @@ public class MainApplication extends YoukuPlayerBaseApplication {
         super.onCreate();
         // TODO Put your application initialization code here.
         Log.d(TAG, "onCreate");
+
+        SpannableStringFactory.context=getApplicationContext();
+
+        SharedPreferences settings = getSharedPreferences(context.getString(R.string.app_name), 0);
+
+        settings.edit().clear().commit();
+        String newsData = settings.getString("NEWS", "");
+        String danceData = settings.getString("DANCE", "");
+        try {
+            if(newsData.isEmpty())
+                orderListRabbitData_NEWS=null;
+            else
+                orderListRabbitData_NEWS=(List<RabbitDataItem>)SerializeTool.fromString(newsData);
+
+            if(newsData.isEmpty())
+                orderListRabbitData_DANCE=null;
+            else
+                orderListRabbitData_DANCE=(List<RabbitDataItem>)SerializeTool.fromString(danceData);
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         initImageLoader(getApplicationContext());
         ImageLoader.getInstance().clearMemoryCache();

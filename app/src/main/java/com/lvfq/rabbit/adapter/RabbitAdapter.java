@@ -1,6 +1,7 @@
 package com.lvfq.rabbit.adapter;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.data.RabbitDataItem;
+import com.lvfq.rabbit.util.SerializeTool;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
@@ -18,11 +20,14 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
 public abstract class RabbitAdapter extends BaseAdapter {
     //begin data
-    protected List<RabbitDataItem> orderListRabbitData=null;
+    public List<RabbitDataItem> orderListRabbitData=null;
     //end data
 
     protected Activity activity;
@@ -90,14 +95,14 @@ public abstract class RabbitAdapter extends BaseAdapter {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .preProcessor(new BitmapProcessor() {
-                    @Override
-                    public Bitmap process(Bitmap bitmap) {
-                        Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.play);
-                        Bitmap merge=overlay(bitmap, bm);
-                        return merge;
-                    }
-                })
+//                .preProcessor(new BitmapProcessor() {
+//                    @Override
+//                    public Bitmap process(Bitmap bitmap) {
+//                        Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.play);
+//                        Bitmap merge=overlay(bitmap, bm);
+//                        return merge;
+//                    }
+//                })
                 .build();
     }
 

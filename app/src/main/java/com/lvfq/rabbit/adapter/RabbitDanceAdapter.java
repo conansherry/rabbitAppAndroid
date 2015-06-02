@@ -3,10 +3,14 @@ package com.lvfq.rabbit.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,7 +19,11 @@ import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.activity.PlayerActivity;
 import com.lvfq.rabbit.data.RabbitDataItem;
+import com.lvfq.rabbit.util.SerializeTool;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -41,10 +49,23 @@ public class RabbitDanceAdapter extends RabbitAdapter {
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
         ((MainApplication)activity.getApplication()).setListRabbitDataItem_DANCE(nonOrderListRabbitData);
-        orderListRabbitData = nonOrderListRabbitData;
+        try {
+            String storage = SerializeTool.toString(nonOrderListRabbitData);
+            // We need an Editor object to make preference changes.
+            // All objects are from android.context.Context
+            SharedPreferences settings = activity.getSharedPreferences(activity.getString(R.string.app_name), 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("DANCE", storage);
+            // Commit the edits!
+            editor.commit();
+            Log.d("TAG", "持久化成功");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        super.setRabbitData(nonOrderListRabbitData);
     }
 
-        private static class ViewHolder {
+    private static class ViewHolder {
         public ImageView thumbnail=null;
         public TextView title=null;
         public TextView maintext=null;
@@ -71,6 +92,8 @@ public class RabbitDanceAdapter extends RabbitAdapter {
 
             vi.setTag(holder);
 
+            vi.setLongClickable(true);
+
             Log.d(TAG, "The view is not a recycled one: we have to inflate");
         }
         else {
@@ -83,23 +106,35 @@ public class RabbitDanceAdapter extends RabbitAdapter {
         final RabbitDataItem rabbitDataItem=getItem(position);
         if(rabbitDataItem.title!=null)
             holder.title.setText(rabbitDataItem.title);
-        if(rabbitDataItem.maintext!=null)
+        if(rabbitDataItem.maintext!=null) {
             holder.maintext.setText(rabbitDataItem.maintext);
+            vi.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, rabbitDataItem.maintext);
+                    sendIntent.setType("text/plain");
+                    activity.startActivity(sendIntent);
+                    return false;
+                }
+            });
+        }
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
         if(rabbitDataItem.thumbnail!=null) {
-            ImageView imageView=new ImageView(activity);
+            FrameLayout frameLayout=(FrameLayout) inflater.inflate(R.layout.dance_thumb, null);
+            final ImageView imageView=(ImageView)frameLayout.findViewById(R.id.dance_thumbnail_image);
             imageLoader.displayImage(rabbitDataItem.thumbnail, imageView, videoOptions);
-            imageView.setOnClickListener(new View.OnClickListener() {
+            frameLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(activity, PlayerActivity.class);
+                    Intent intent = new Intent(activity, PlayerActivity.class);
                     intent.putExtra("vid", rabbitDataItem.retTitle);
                     activity.startActivity(intent);
                 }
             });
-            RelativeLayout.LayoutParams paramsPics = new RelativeLayout.LayoutParams((int) activity.getResources().getDimension(R.dimen.dance_imageview_width), (int) activity.getResources().getDimension(R.dimen.dance_imageview_height));
-            holder.extraInfo.addView(imageView, paramsPics);
+            holder.extraInfo.addView(frameLayout);
         }
         //end bind data to view
 

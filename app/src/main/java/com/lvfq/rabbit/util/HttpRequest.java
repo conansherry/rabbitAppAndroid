@@ -9,8 +9,6 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.commons.io.IOUtils;
-
 public class HttpRequest {
     /**
      * 向指定URL发送GET方法的请求
@@ -47,14 +45,11 @@ public class HttpRequest {
 //                System.out.println(key + "--->" + map.get(key));
 //            }
             // 定义 BufferedReader输入流来读取URL的响应
-//            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-//            String line;
-//            while ((line = in.readLine()) != null) {
-//                result += line;
-//            }
-            StringWriter writer = new StringWriter();
-            IOUtils.copy(connection.getInputStream(), writer, "UTF-8");
-            result = writer.toString();
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result += line;
+            }
         } catch (Exception e) {
             System.out.println("发送GET请求出现异常！" + e);
             e.printStackTrace();

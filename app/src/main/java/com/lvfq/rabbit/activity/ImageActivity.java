@@ -1,5 +1,6 @@
 package com.lvfq.rabbit.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
-public class ImageActivity extends ActivityBase {
+public class ImageActivity extends Activity {
 
     private final static String TAG="ImageActivity";
 

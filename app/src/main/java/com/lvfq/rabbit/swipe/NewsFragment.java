@@ -70,21 +70,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
 
     private static final String TAG="NewsFragment";
 
-    private long SINCE_ID = 0;
-    private long MAX_ID = 0;
     private List<RabbitDataItem> rabbitData=null;
-
-    private String expressionPatternStr="\\[(.*?)\\]";
-    private Pattern expressionPattern=Pattern.compile(expressionPatternStr);
-
-    private String urlPatternStr="(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-    private Pattern urlPattern=Pattern.compile(urlPatternStr);
-
-    private String atPatternStr="@([\\u4e00-\\u9fa5a-zA-Z0-9_-]{4,30})";
-    private Pattern atPattern=Pattern.compile(atPatternStr);
-
-    private String huatiPatternStr="#([^#]+)#";
-    private Pattern huatiPattern=Pattern.compile(huatiPatternStr);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +100,9 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                 }
             }
         }));
+
+        if(rabbitAdapter.orderListRabbitData==null)
+            initiateRefresh();
     }
 
     @Override
@@ -134,62 +123,13 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
     }
     // END_INCLUDE (initiate_refresh)
 
-    private void converSpannableText(String maintext, SpannableString spannableString) {
-        //找表情
-        Matcher expressionMatcher= expressionPattern.matcher(maintext);
-        while(expressionMatcher.find()) {
-            Log.d(TAG, expressionMatcher.group(1) + " start:" + expressionMatcher.start() + " end:" + expressionMatcher.end());
-            int id=-1;
-            try {
-                Field stringFiled=(Field)R.string.class.getDeclaredField(expressionMatcher.group(1));
-                int strId=stringFiled.getInt(R.string.class);
-                String expressionStr=getString(strId);
-                Field field=(Field)R.drawable.class.getDeclaredField(expressionStr);
-                id=field.getInt(R.drawable.class);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            if(id!=-1) {
-                Drawable expression = ResourcesCompat.getDrawable(getResources(), id, null);
-                expression.setBounds(0, 0, expression.getIntrinsicWidth(), expression.getIntrinsicHeight());
-                ImageSpan span = new ImageSpan(expression, ImageSpan.ALIGN_BASELINE);
-                spannableString.setSpan(span, expressionMatcher.start(), expressionMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-        }
-        //找Url
-        Matcher urlMatcher=urlPattern.matcher(maintext);
-        while(urlMatcher.find()) {
-            Log.d(TAG, urlMatcher.group(0) + " start:" + urlMatcher.start() + " end:" + urlMatcher.end());
-            spannableString.setSpan(new URLSpan(urlMatcher.group(0)), urlMatcher.start(), urlMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        //找at
-        Matcher atMatcher=atPattern.matcher(maintext);
-        while(atMatcher.find()) {
-            Log.d(TAG, atMatcher.group(0) + " start:" + atMatcher.start() + " end:" + atMatcher.end());
-            spannableString.setSpan(new URLSpan("http://weibo.com/n/"+atMatcher.group(1)+"?from=feed&loc=at"), atMatcher.start(), atMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        //找话题
-        Matcher huatiMatcher=huatiPattern.matcher(maintext);
-        while(huatiMatcher.find()) {
-            Log.d(TAG, huatiMatcher.group(0) + " start:" + huatiMatcher.start() + " end:" + huatiMatcher.end());
-            spannableString.setSpan(new URLSpan("http://huati.weibo.com/k/"+huatiMatcher.group(1)), huatiMatcher.start(), huatiMatcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-    }
-
     private RabbitDataItem createRabbitDataItem(JSONObject oneRabbit) {
         try {
             RabbitDataItem rabbitDataItem = new RabbitDataItem();
+            rabbitDataItem.id = oneRabbit.getLong("id");
             rabbitDataItem.title = oneRabbit.getString("title");
             rabbitDataItem.thumbnail = oneRabbit.getJSONArray("thumbnail").getString(0);
             rabbitDataItem.maintext = oneRabbit.getString("content");
-            rabbitDataItem.spannableMaintext=new SpannableString(rabbitDataItem.maintext);
-
-            converSpannableText(rabbitDataItem.maintext, rabbitDataItem.spannableMaintext);
-
             rabbitDataItem.timetext = oneRabbit.getString("time");
 
             if(!oneRabbit.isNull("pics")) {
@@ -205,8 +145,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                 JSONObject retObject = oneRabbit.getJSONObject("extra");
                 rabbitDataItem.retTitle = "@"+retObject.getString("title");
                 rabbitDataItem.retMaintext = retObject.getString("content");
-                rabbitDataItem.retSpannableMaintext = new SpannableString(rabbitDataItem.retMaintext);
-                converSpannableText(rabbitDataItem.retMaintext, rabbitDataItem.retSpannableMaintext);
+
                 if(!retObject.isNull("pics")) {
                     JSONArray retExtraArray = retObject.getJSONArray("pics");
                     rabbitDataItem.retExtra = new ArrayList<String>();
@@ -232,7 +171,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            rabbitData=((MainApplication)getActivity().getApplication()).getListRabbitDataItem_NEWS();
+            rabbitData=rabbitAdapter.orderListRabbitData;
             if(rabbitData==null) {
                 String result = HttpRequest.sendGet(getString(R.string.news_server), "count=10");
                 if (result != null) {
@@ -248,13 +187,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
                             rabbitData.add(rabbitDataItem);
-
-                            if(i==0) {
-                                SINCE_ID=oneRabbit.getLong("id");
-                            }
-                            else if(i==jsonArray.length()-1) {
-                                MAX_ID=oneRabbit.getLong("id");
-                            }
                         }
                     } catch (JSONException e) {
                         rabbitData = null;
@@ -263,6 +195,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                 }
             }
             else {
+                long SINCE_ID=rabbitData.get(0).id;
                 String result = HttpRequest.sendGet(getString(R.string.news_server), "since_id="+SINCE_ID);
                 if (result != null) {
                     Log.d(TAG, "into add rabit item");
@@ -276,10 +209,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
                             rabbitData.add(0, rabbitDataItem);
-
-                            if(i==0) {
-                                SINCE_ID=oneRabbit.getLong("id");
-                            }
                         }
                     } catch (JSONException e) {
                         rabbitData = null;
@@ -305,7 +234,8 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            rabbitData=((MainApplication)getActivity().getApplication()).getListRabbitDataItem_NEWS();
+            rabbitData=rabbitAdapter.orderListRabbitData;
+            long MAX_ID=rabbitData.get(rabbitData.size()-1).id;
             String result = HttpRequest.sendGet(getString(R.string.news_server), "count=5&max_id="+MAX_ID);
             if (result != null) {
                 Log.d(TAG, "into add rabit item");
@@ -319,10 +249,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                         JSONObject oneRabbit = jsonArray.getJSONObject(i);
                         RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
                         rabbitData.add(rabbitDataItem);
-
-                        if(i==jsonArray.length()-1) {
-                            MAX_ID=oneRabbit.getLong("id");
-                        }
                     }
                 } catch (JSONException e) {
                     rabbitData = null;

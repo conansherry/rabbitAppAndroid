@@ -1,16 +1,22 @@
 package com.lvfq.rabbit.adapter;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +26,8 @@ import com.lvfq.rabbit.activity.ImageActivity;
 import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.data.*;
+import com.lvfq.rabbit.util.SerializeTool;
+import com.lvfq.rabbit.util.SpannableStringFactory;
 import com.lvfq.rabbit.util.ViewId;
 
 public class RabbitNewsAdapter extends RabbitAdapter {
@@ -30,6 +38,9 @@ public class RabbitNewsAdapter extends RabbitAdapter {
 
     private SimpleDateFormat abstractTimeFormat;
     private SimpleDateFormat detailTimeFormat;
+
+    //缓存SpannableString
+    private Map<Long, SpannableString> cacheSpannableString=new HashMap<Long, SpannableString>();
 
     public RabbitNewsAdapter(Activity a) {
         super(a);
@@ -44,7 +55,20 @@ public class RabbitNewsAdapter extends RabbitAdapter {
 
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
         ((MainApplication)activity.getApplication()).setListRabbitDataItem_NEWS(nonOrderListRabbitData);
-        orderListRabbitData = nonOrderListRabbitData;
+        try {
+            String storage = SerializeTool.toString(nonOrderListRabbitData);
+            // We need an Editor object to make preference changes.
+            // All objects are from android.context.Context
+            SharedPreferences settings = activity.getSharedPreferences(activity.getString(R.string.app_name), 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("NEWS", storage);
+            // Commit the edits!
+            editor.commit();
+            Log.d("TAG", "持久化成功");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        super.setRabbitData(nonOrderListRabbitData);
     }
 
     private static class ViewHolder {
@@ -73,6 +97,8 @@ public class RabbitNewsAdapter extends RabbitAdapter {
 
             vi.setTag(holder);
 
+            vi.setLongClickable(true);
+
             Log.d(TAG, "The view is not a recycled one: we have to inflate");
         }
         else {
@@ -82,12 +108,31 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             holder = (ViewHolder)vi.getTag();
             Log.d(TAG, "view recycled");
         }
-        RabbitDataItem rabbitDataItem=getItem(position);
+        final RabbitDataItem rabbitDataItem=getItem(position);
         if(rabbitDataItem.title!=null)
             holder.title.setText(rabbitDataItem.title);
-        if(rabbitDataItem.spannableMaintext!=null) {
+        if(rabbitDataItem.maintext!=null) {
             holder.maintext.setMovementMethod(LinkMovementMethod.getInstance());
-            holder.maintext.setText(rabbitDataItem.spannableMaintext);
+            SpannableString mainTextSpannableString=null;
+            if(cacheSpannableString.containsKey(rabbitDataItem.id))
+                mainTextSpannableString=cacheSpannableString.get(rabbitDataItem.id);
+            else {
+                mainTextSpannableString=SpannableStringFactory.createSpannableText(rabbitDataItem.maintext);
+                cacheSpannableString.put(rabbitDataItem.id, mainTextSpannableString);
+            }
+            holder.maintext.setText(mainTextSpannableString);
+
+            vi.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, rabbitDataItem.maintext);
+                    sendIntent.setType("text/plain");
+                    activity.startActivity(sendIntent);
+                    return false;
+                }
+            });
         }
         if(rabbitDataItem.timetext!=null)
             holder.timetext.setText(rabbitDataItem.timetext);
@@ -144,7 +189,16 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             holder.extraInfo.addView(retTitle, paddingParams);
 
             TextView retMaintext=new TextView(activity);
-            retMaintext.setText(rabbitDataItem.retSpannableMaintext);
+
+            SpannableString retMainTextSpannableString=null;
+            if(cacheSpannableString.containsKey(rabbitDataItem.id))
+                retMainTextSpannableString=cacheSpannableString.get(rabbitDataItem.id);
+            else {
+                retMainTextSpannableString=SpannableStringFactory.createSpannableText(rabbitDataItem.maintext);
+                cacheSpannableString.put(rabbitDataItem.id, retMainTextSpannableString);
+            }
+            retMaintext.setText(retMainTextSpannableString);
+
             retMaintext.setId(ViewId.getInstance().getUniqueId());
             retMaintext.setTextColor(activity.getResources().getColor(R.color.black));
             retMaintext.setMovementMethod(LinkMovementMethod.getInstance());

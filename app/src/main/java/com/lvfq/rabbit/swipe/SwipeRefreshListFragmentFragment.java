@@ -54,7 +54,7 @@ public abstract class SwipeRefreshListFragmentFragment extends SwipeRefreshListF
 
     private static final Random random = new Random();
 
-    public BaseAdapter rabbitAdapter = null;
+    public RabbitAdapter rabbitAdapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
