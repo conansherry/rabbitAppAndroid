@@ -21,6 +21,7 @@
 
     <string name="news_server">http://120.25.122.107:8888/getNews</string>
     <string name="dance_server">https://openapi.youku.com/v2/videos/by_user.json</string>
+    <string name="start_image_hdpi">http://120.25.122.107:8989/hdpi/splash.jpg</string>
 
     <!-- 表情中文和文件名映射 -->
     <string name="心">heart</string>
