@@ -38,7 +38,7 @@ public class MainApplication extends YoukuPlayerBaseApplication {
 
         SharedPreferences settings = getSharedPreferences(context.getString(R.string.app_name), 0);
 
-        //settings.edit().clear().commit();
+        settings.edit().clear().commit();
         String newsData = settings.getString("NEWS", "");
         String danceData = settings.getString("DANCE", "");
         try {

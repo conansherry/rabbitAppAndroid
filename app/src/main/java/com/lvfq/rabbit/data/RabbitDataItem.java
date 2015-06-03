@@ -15,6 +15,7 @@ public class RabbitDataItem implements Serializable{
     public List<String> extra=null;
 
     //转发微博
+    public long retId=0;
     public String retTitle=null;//给danceItem复用ID
     public String retMaintext=null;
     public List<String> retExtra=null;

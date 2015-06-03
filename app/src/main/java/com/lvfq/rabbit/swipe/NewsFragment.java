@@ -143,6 +143,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
             //ret
             if(!oneRabbit.isNull("extra")) {
                 JSONObject retObject = oneRabbit.getJSONObject("extra");
+                rabbitDataItem.retId = retObject.getLong("id");
                 rabbitDataItem.retTitle = "@"+retObject.getString("title");
                 rabbitDataItem.retMaintext = retObject.getString("content");
 

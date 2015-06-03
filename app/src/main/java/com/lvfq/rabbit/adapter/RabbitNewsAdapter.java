@@ -191,11 +191,11 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             TextView retMaintext=new TextView(activity);
 
             SpannableString retMainTextSpannableString=null;
-            if(cacheSpannableString.containsKey(rabbitDataItem.id))
-                retMainTextSpannableString=cacheSpannableString.get(rabbitDataItem.id);
+            if(cacheSpannableString.containsKey(rabbitDataItem.retId))
+                retMainTextSpannableString=cacheSpannableString.get(rabbitDataItem.retId);
             else {
-                retMainTextSpannableString=SpannableStringFactory.createSpannableText(rabbitDataItem.maintext);
-                cacheSpannableString.put(rabbitDataItem.id, retMainTextSpannableString);
+                retMainTextSpannableString=SpannableStringFactory.createSpannableText(rabbitDataItem.retMaintext);
+                cacheSpannableString.put(rabbitDataItem.retId, retMainTextSpannableString);
             }
             retMaintext.setText(retMainTextSpannableString);
 
