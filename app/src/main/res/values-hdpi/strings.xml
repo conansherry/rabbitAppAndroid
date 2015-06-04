@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">黄艺林-菟籽琳</string>
+    <string name="app_version">1.0</string>
     <string name="loadinfo">萌萌哒载入中</string>
     <string name="action_settings">设置</string>
 
@@ -12,6 +13,9 @@
     <string name="norabbit">小兔子回家吃饭了</string>
     <string name="no_network_connection_toast">小兔子离线了</string>
 
+    <string name="noupdate">已经是最新版</string>
+    <string name="update">有更新</string>
+
     <string name="menu_refresh">Refresh</string>
 
     <string name="menu_color_scheme">Color scheme</string>
@@ -22,6 +26,10 @@
     <string name="news_server">http://120.25.122.107:8888/getNews</string>
     <string name="dance_server">https://openapi.youku.com/v2/videos/by_user.json</string>
     <string name="start_image_hdpi">http://120.25.122.107:8989/hdpi/splash.jpg</string>
+
+    <string name="version">菟籽琳的APP v1.0</string>
+    <string name="about">conansherry.hy@gmail.com\n如有发现bug，欢迎随时发送邮件</string>
+    <string name="update_server">http://120.25.122.107:8888/update</string>
 
     <!-- 表情中文和文件名映射 -->
     <string name="心">heart</string>

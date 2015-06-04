@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RabbitDanceAdapter extends RabbitAdapter {
@@ -50,7 +51,7 @@ public class RabbitDanceAdapter extends RabbitAdapter {
     public void setRabbitData(List<RabbitDataItem> nonOrderListRabbitData) {
         ((MainApplication)activity.getApplication()).setListRabbitDataItem_DANCE(nonOrderListRabbitData);
         try {
-            String storage = SerializeTool.toString(nonOrderListRabbitData);
+            String storage = SerializeTool.toString(new ArrayList<RabbitDataItem>(nonOrderListRabbitData.subList(0, 50)));
             // We need an Editor object to make preference changes.
             // All objects are from android.context.Context
             SharedPreferences settings = activity.getSharedPreferences(activity.getString(R.string.app_name), 0);

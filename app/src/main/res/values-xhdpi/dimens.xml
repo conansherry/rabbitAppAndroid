@@ -27,6 +27,9 @@
 
     <!-- Semantic definitions -->
 
+    <dimen name="about_width">100dp</dimen>
+    <dimen name="about_height">100dp</dimen>
+
     <dimen name="thumbnail_width">50dp</dimen>
     <dimen name="thumbnail_height">50dp</dimen>
 

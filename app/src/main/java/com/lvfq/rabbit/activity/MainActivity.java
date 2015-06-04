@@ -47,7 +47,7 @@ public class MainActivity extends ActivityBase {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment();
             //SwipeRefreshListFragmentFragment fragment = new SwipeRefreshListFragmentFragment();
-            transaction.replace(R.id.sample_content_fragment, fragment);
+            transaction.replace(R.id.main_fragment, fragment);
             transaction.commit();
         }
     }

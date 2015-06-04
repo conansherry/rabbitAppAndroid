@@ -31,7 +31,7 @@
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/username"
-                    android:text="&lt;未登录&gt;"
+                    android:text="用户系统开发ing"
                     android:paddingLeft="5dp"
                     android:paddingTop="20dp"
                     android:textSize="24dp"
@@ -41,7 +41,7 @@
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/userlevel"
-                    android:text="&lt;level&gt;"
+                    android:text="敬请期待"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:textSize="20dp"
@@ -51,6 +51,7 @@
 
         </RelativeLayout>
 
+        <!-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,11 +78,13 @@
                 android:textColor="@color/black" />
 
         </RelativeLayout>
+        <-->
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/update_click"
             android:background="@drawable/userinfo"
             android:layout_marginTop="20dp"
             android:padding="5dip">
@@ -109,6 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/about_click"
             android:background="@drawable/userinfo"
             android:layout_marginTop="20dp"
             android:padding="5dip">

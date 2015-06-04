@@ -37,7 +37,7 @@ public class PlayerActivity extends YoukuBasePlayerActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.second);
+		setContentView(R.layout.youku_player);
 		
 		//通过上个页面传递过来的Intent获取播放参数
 		getIntentData(getIntent());

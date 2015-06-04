@@ -173,6 +173,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
             rabbitData=rabbitAdapter.orderListRabbitData;
+            hasMore=false;
             if(rabbitData==null) {
                 String result = HttpRequest.sendGet(getString(R.string.news_server), "count=10");
                 if (result != null) {
@@ -182,8 +183,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                         JSONArray jsonArray = new JSONArray(result);
                         if(jsonArray.length()>0)
                             hasMore=true;
-                        else
-                            hasMore=false;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
@@ -204,8 +203,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                         JSONArray jsonArray = new JSONArray(result);
                         if(jsonArray.length()>0)
                             hasMore=true;
-                        else
-                            hasMore=false;
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
@@ -238,14 +235,13 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
             rabbitData=rabbitAdapter.orderListRabbitData;
             long MAX_ID=rabbitData.get(rabbitData.size()-1).id;
             String result = HttpRequest.sendGet(getString(R.string.news_server), "count=5&max_id="+MAX_ID);
+            hasMore=false;
             if (result != null) {
                 Log.d(TAG, "into add rabit item");
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     if(jsonArray.length()>0)
                         hasMore=true;
-                    else
-                        hasMore=false;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject oneRabbit = jsonArray.getJSONObject(i);
                         RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);

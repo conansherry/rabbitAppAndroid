@@ -63,7 +63,7 @@ public class SlidingTabsColorsFragment extends Fragment {
             else if(type==1)
                 mFragment=new NewsFragment();
             else
-                mFragment=new ContentFragment();
+                mFragment=new SettingFragment();
 
             Log.d(TAG, "RabbitPagerItem init");
         }
@@ -158,8 +158,6 @@ public class SlidingTabsColorsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.fragment_item, container, false);
     }
 
@@ -212,7 +210,7 @@ public class SlidingTabsColorsFragment extends Fragment {
 
     /**
      * The {@link FragmentPagerAdapter} used to display pages in this sample. The individual pages
-     * are instances of {@link ContentFragment} which just display three lines of text. Each page is
+     * are instances of {@link SettingFragment} which just display three lines of text. Each page is
      * created by the relevant {@link RabbitPagerItem} for the requested position.
      * <p>
      * The important section of this class is the {@link #getPageTitle(int)} method which controls
