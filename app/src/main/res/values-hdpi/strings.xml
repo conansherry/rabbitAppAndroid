@@ -12,8 +12,13 @@
     <string name="norabbit">小兔子回家吃饭了</string>
     <string name="no_network_connection_toast">小兔子离线了</string>
 
+    <string name="updateerror">请检查网络连接</string>
     <string name="noupdate">已经是最新版</string>
     <string name="update">有更新</string>
+
+    <string name="update_dialog">发现新版本</string>
+    <string name="agree_update">升级</string>
+    <string name="cancle_update">取消</string>
 
     <string name="menu_refresh">Refresh</string>
 
@@ -26,7 +31,7 @@
     <string name="dance_server">https://openapi.youku.com/v2/videos/by_user.json</string>
     <string name="start_image_hdpi">http://120.25.122.107:8989/hdpi/splash.jpg</string>
 
-    <string name="version">菟籽琳的APP v1.0</string>
+    <string name="version">菟籽琳的APP v</string>
     <string name="about">conansherry.hy@gmail.com\n如有发现bug，欢迎随时发送邮件</string>
     <string name="update_server">http://120.25.122.107:8888/update</string>
 

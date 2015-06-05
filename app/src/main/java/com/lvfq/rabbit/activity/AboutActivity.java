@@ -24,8 +24,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
+
+import org.w3c.dom.Text;
 
 /**
  * Simple Fragment used to display some meaningful content for each page in the sample's
@@ -37,5 +41,7 @@ public class AboutActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
+        TextView textView = (TextView)findViewById(R.id.about_text);
+        textView.setText(getString(R.string.version)+((MainApplication)getApplication()).getVersion_name());
     }
 }

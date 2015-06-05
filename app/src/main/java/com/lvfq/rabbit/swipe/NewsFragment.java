@@ -16,7 +16,10 @@
 
 package com.lvfq.rabbit.swipe;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,9 +34,11 @@ import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.support.v4.content.res.ResourcesCompat;
+import android.widget.Toast;
 
 import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
+import com.lvfq.rabbit.adapter.RabbitAdapter;
 import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
 import com.lvfq.rabbit.util.HttpRequest;
@@ -72,6 +77,14 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
 
     private List<RabbitDataItem> rabbitData=null;
 
+    private Boolean canLoadMore=true;
+
+    private boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +106,13 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //Log.d(TAG, "first:"+firstVisibleItem+" visible:"+visibleItemCount+" total:"+totalItemCount+" last:"+listView.getLastVisiblePosition());
-                if (listView.getLastVisiblePosition() >=0 && listView.getLastVisiblePosition() == listView.getAdapter().getCount() - 1
+                if (isNetworkConnected() && listView.getLastVisiblePosition() >=0 && listView.getLastVisiblePosition() == listView.getAdapter().getCount() - 1
                         && listView.getChildAt(listView.getChildCount() - 1).getBottom() <= listView.getHeight()) {
-                    Log.d(TAG, "load more");
-                    new NewsLoadMoreBackgroundTask().execute();
+                    synchronized (canLoadMore) {
+                        Log.d(TAG, "load more");
+                        canLoadMore=false;
+                        new NewsLoadMoreBackgroundTask().execute();
+                    }
                 }
             }
         }));
@@ -172,7 +188,10 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            rabbitData=new ArrayList<RabbitDataItem>(rabbitAdapter.orderListRabbitData);
+            if(rabbitAdapter.orderListRabbitData==null)
+                rabbitData=null;
+            else
+                rabbitData=new ArrayList<RabbitDataItem>(rabbitAdapter.orderListRabbitData);
             hasMore=false;
             if(rabbitData==null) {
                 String result = HttpRequest.sendGet(getString(R.string.news_server), "count=10");
@@ -263,4 +282,28 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
             onRefreshComplete(result, hasMore);
         }
     }
+
+    // BEGIN_INCLUDE (refresh_complete)
+    /**
+     * When the AsyncTask finishes, it calls onRefreshComplete(), which updates the data in the
+     * ListAdapter and turns off the progress bar.
+     */
+    @Override
+    protected void onRefreshComplete(List<RabbitDataItem> result, Boolean hasMore) {
+        // Remove all items from the ListAdapter, and then replace them with the new items
+        RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
+        adapter.setRabbitData(result);
+        adapter.notifyDataSetChanged();
+        // Stop the refreshing indicator
+        setRefreshing(false);
+        if(hasMore)
+            Toast.makeText(getActivity(), getString(R.string.newrabbit), Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getActivity(),getString(R.string.norabbit),Toast.LENGTH_SHORT).show();
+
+        synchronized (canLoadMore) {
+            canLoadMore=true;
+        }
+    }
+    // END_INCLUDE (refresh_complete)
 }

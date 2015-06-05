@@ -43,10 +43,12 @@ public class MainApplication extends YoukuPlayerBaseApplication {
         }
 
         SpannableStringFactory.context=getApplicationContext();
-
         SharedPreferences settings = getSharedPreferences(context.getString(R.string.app_name), 0);
 
-        //settings.edit().clear().commit();
+        if(settings.getString("VERSION", "").isEmpty() || !settings.getString("VERSION", "").equals(version_name)) {
+            settings.edit().clear().commit();
+        }
+        settings.edit().putString("VERSION", version_name).commit();
         String newsData = settings.getString("NEWS", "");
         String danceData = settings.getString("DANCE", "");
         try {

@@ -90,6 +90,9 @@ public class SettingFragment extends Fragment {
 
     private void onUpdate(String result) {
         if(result==null) {
+            Toast.makeText(getActivity(),getString(R.string.updateerror),Toast.LENGTH_SHORT).show();
+        }
+        else if(result.equals("uptodate")) {
             Toast.makeText(getActivity(),getString(R.string.noupdate),Toast.LENGTH_SHORT).show();
         }
         else {
@@ -106,6 +109,8 @@ public class SettingFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             String result = HttpRequest.sendGet(getString(R.string.update_server), "");
+            if(result==null)
+                return result;
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 Double serverVersion = jsonObject.getDouble("version");
@@ -113,8 +118,9 @@ public class SettingFragment extends Fragment {
                     result=jsonObject.getString("apk");
                 }
                 else
-                    result=null;
+                    result="uptodate";
             } catch (JSONException e) {
+                result=null;
                 Log.e(TAG, "JSONException");
             }
             return result;
