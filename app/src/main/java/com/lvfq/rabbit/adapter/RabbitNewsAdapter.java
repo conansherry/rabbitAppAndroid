@@ -179,7 +179,6 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         }
         else if(rabbitDataItem.retTitle!=null) {
             holder.extraInfo.setBackgroundColor(activity.getResources().getColor(R.color.littlegray));
-
             RelativeLayout.LayoutParams paddingParams=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             paddingParams.setMargins(8, 8, 0, 4);
 
@@ -203,6 +202,7 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             retMaintext.setId(ViewId.getInstance().getUniqueId());
             retMaintext.setTextColor(activity.getResources().getColor(R.color.black));
             retMaintext.setMovementMethod(LinkMovementMethod.getInstance());
+            retMaintext.setLineSpacing(2.0f,1.2f);
             RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(8,4,0,4);
             params.addRule(RelativeLayout.BELOW, retTitle.getId());

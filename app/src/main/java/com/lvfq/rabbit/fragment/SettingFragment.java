@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.activity.AboutActivity;
 import com.lvfq.rabbit.activity.PlayerActivity;
@@ -108,7 +109,7 @@ public class SettingFragment extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 Double serverVersion = jsonObject.getDouble("version");
-                if(serverVersion>Double.parseDouble(getString(R.string.app_version))) {
+                if(serverVersion>Double.parseDouble(((MainApplication)getActivity().getApplication()).getVersion_name())) {
                     result=jsonObject.getString("apk");
                 }
                 else

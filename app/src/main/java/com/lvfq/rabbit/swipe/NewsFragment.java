@@ -172,7 +172,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            rabbitData=rabbitAdapter.orderListRabbitData;
+            rabbitData=new ArrayList<RabbitDataItem>(rabbitAdapter.orderListRabbitData);
             hasMore=false;
             if(rabbitData==null) {
                 String result = HttpRequest.sendGet(getString(R.string.news_server), "count=10");
@@ -232,7 +232,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            rabbitData=rabbitAdapter.orderListRabbitData;
+            rabbitData=new ArrayList<RabbitDataItem>(rabbitAdapter.orderListRabbitData);
             long MAX_ID=rabbitData.get(rabbitData.size()-1).id;
             String result = HttpRequest.sendGet(getString(R.string.news_server), "count=5&max_id="+MAX_ID);
             hasMore=false;

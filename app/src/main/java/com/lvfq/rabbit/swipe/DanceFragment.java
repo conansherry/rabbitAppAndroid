@@ -139,7 +139,7 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
         @Override
         protected List<RabbitDataItem> doInBackground(Void... params) {
             //request the server to get rabbit data
-            rabbitData=rabbitAdapter.orderListRabbitData;
+            rabbitData=new ArrayList<RabbitDataItem>(rabbitAdapter.orderListRabbitData);
             if(rabbitData==null) {
                 String result = HttpRequest.sendGet(getString(R.string.dance_server), "client_id=459086bb819ff72d&user_id=UOTcwNjUxMjQ=&count=50&page=1");
                 if (result != null) {
@@ -207,7 +207,7 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
             //request the server to get rabbit data
             int pageId=1;
             int total=0;
-            rabbitData=rabbitAdapter.orderListRabbitData;
+            rabbitData=new ArrayList<RabbitDataItem>(rabbitAdapter.orderListRabbitData);
             String result = HttpRequest.sendGet(getString(R.string.dance_server), "client_id=459086bb819ff72d&user_id=UOTcwNjUxMjQ=&count=100&page="+pageId);
             JSONObject jsonObject=null;
             if (result != null) {

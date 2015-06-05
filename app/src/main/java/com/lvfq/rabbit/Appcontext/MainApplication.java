@@ -3,6 +3,7 @@ package com.lvfq.rabbit.Appcontext;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.util.Log;
 import android.content.Context;
@@ -28,11 +29,18 @@ public class MainApplication extends YoukuPlayerBaseApplication {
     private List<RabbitDataItem> orderListRabbitData_NEWS=null;
     private List<RabbitDataItem> orderListRabbitData_DANCE=null;
 
+    private String version_name=null;
+
     @Override
     public void onCreate() {
         super.onCreate();
         // TODO Put your application initialization code here.
         Log.d(TAG, "onCreate");
+        try {
+            version_name = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch(PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         SpannableStringFactory.context=getApplicationContext();
 
@@ -60,6 +68,10 @@ public class MainApplication extends YoukuPlayerBaseApplication {
         initImageLoader(getApplicationContext());
         ImageLoader.getInstance().clearMemoryCache();
         ImageLoader.getInstance().clearDiskCache();
+    }
+
+    public String getVersion_name() {
+        return version_name;
     }
 
     public void setListRabbitDataItem_NEWS(List<RabbitDataItem> rabbitData) {

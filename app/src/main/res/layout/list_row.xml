@@ -40,12 +40,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="我是标题我是标题我是标题我是标题我是标题我是标题"
+                android:text="黄艺林-菟籽琳"
                 android:id="@+id/title"
                 android:layout_alignParentLeft="true"
-                android:padding="3dp"
-                android:textSize="14dp"
+                android:padding="5dp"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 android:layout_toLeftOf="@+id/timetext"
                 android:textColor="@color/black" />
@@ -57,6 +56,7 @@
                 android:layout_alignParentRight="true"
                 android:gravity="right"
                 android:text="5:45"
+                android:layout_marginTop="3dp"
                 android:layout_marginRight="5dip"
                 android:textSize="10dp"
                 android:textColor="#ffc91308"
@@ -67,10 +67,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="3dp"
             android:text="兔子的信息兔子的信息兔子的信息兔子的信息兔子的信息兔子的信息"
             android:id="@+id/maintext"
-            android:textSize="14dp"
-            android:padding="2dp"
+            android:textSize="16dp"
+            android:padding="3dp"
             android:textColor="@color/black" />
 
     </LinearLayout>
@@ -96,7 +97,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="转发"
             android:id="@+id/forwarding"
             android:layout_weight="1"
@@ -108,7 +108,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="赞"
             android:id="@+id/pointlike"
             android:layout_weight="1"
