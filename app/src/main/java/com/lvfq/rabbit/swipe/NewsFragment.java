@@ -206,7 +206,7 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject oneRabbit = jsonArray.getJSONObject(i);
                             RabbitDataItem rabbitDataItem = createRabbitDataItem(oneRabbit);
-                            rabbitData.add(0, rabbitDataItem);
+                            rabbitData.add(i, rabbitDataItem);
                         }
                     } catch (JSONException e) {
                         rabbitData = null;

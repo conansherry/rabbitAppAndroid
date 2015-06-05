@@ -114,7 +114,7 @@ public class RabbitDanceAdapter extends RabbitAdapter {
                 public boolean onLongClick(View v) {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, rabbitDataItem.maintext);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, rabbitDataItem.maintext+" 视频地址:http://v.youku.com/v_show/id_"+rabbitDataItem.retTitle);
                     sendIntent.setType("text/plain");
                     activity.startActivity(sendIntent);
                     return false;
