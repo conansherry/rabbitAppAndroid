@@ -865,5 +865,9 @@
     <style name="history_item_txt_second">
         <item name="android:textColor">#ffffffff</item>
         <item name="android:textSize">@dimen/history_item_txt_second_textsize</item>
-    </style>       
+    </style>
+    <style name="Theme_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

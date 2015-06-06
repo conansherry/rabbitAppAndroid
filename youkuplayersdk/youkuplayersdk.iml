@@ -87,20 +87,20 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="android-support-v7-appcompat_self" level="project" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
-    <orderEntry type="library" exported="" name="fastjson-1.2.5" level="project" />
-    <orderEntry type="library" exported="" name="domob_android_sdk" level="project" />
-    <orderEntry type="library" exported="" name="CocoUnion_AD_SDK_Android_v4.1.2" level="project" />
-    <orderEntry type="library" exported="" name="baseproject" level="project" />
-    <orderEntry type="library" exported="" name="tracking" level="project" />
-    <orderEntry type="library" exported="" name="android-support-v7-appcompat" level="project" />
     <orderEntry type="library" exported="" name="playerBase" level="project" />
-    <orderEntry type="library" exported="" name="InMobi-4.0.4" level="project" />
-    <orderEntry type="library" exported="" name="xadsdk" level="project" />
-    <orderEntry type="library" exported="" name="mobisageSDK" level="project" />
+    <orderEntry type="library" exported="" name="domob_android_sdk" level="project" />
     <orderEntry type="library" exported="" name="YoukuAnalytics" level="project" />
+    <orderEntry type="library" exported="" name="CocoUnion_AD_SDK_Android_v4.1.2" level="project" />
+    <orderEntry type="library" exported="" name="android-support-v7-appcompat" level="project" />
+    <orderEntry type="library" exported="" name="InMobi-4.0.4" level="project" />
     <orderEntry type="library" exported="" name="mAppTracker" level="project" />
+    <orderEntry type="library" exported="" name="tracking" level="project" />
+    <orderEntry type="library" exported="" name="xadsdk" level="project" />
+    <orderEntry type="library" exported="" name="baseproject" level="project" />
+    <orderEntry type="library" exported="" name="fastjson-1.2.5" level="project" />
     <orderEntry type="library" exported="" name="comscore" level="project" />
+    <orderEntry type="library" exported="" name="mobisageSDK" level="project" />
+    <orderEntry type="library" exported="" name="android-support-v7-appcompat_self" level="project" />
   </component>
 </module>

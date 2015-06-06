@@ -33,10 +33,10 @@ import com.youku.player.goplay.StaticsUtil;
 import com.youku.player.module.VideoCacheInfo;
 import com.youku.player.ui.R;
 import com.youku.player.ui.interf.IMediaPlayerDelegate;
+import com.youku.player.ui.widget.CustomDialog;
 import com.youku.player.util.DetailMessage;
 import com.youku.player.util.DetailUtil;
 import com.youku.player.util.PlayCode;
-import com.youku.player.util.PlayerUiUtile;
 import com.youku.player.util.PlayerUtil;
 import com.youku.uplayer.MPPErrorCode;
 
@@ -53,6 +53,7 @@ public class PluginSimplePlayer extends PluginOverlay implements DetailMessage {
 	private RelativeLayout controlLayout;
 	private ImageButton play_pauseButton;// 播放暂停按钮
 	private ImageButton full_screenButton;// 全屏按钮
+	private TextView select_qingx;
 	private String id;// 上页传递id video/show
 
 	private LinearLayout mContainerLayout;// 整个布局layout
@@ -248,6 +249,7 @@ public class PluginSimplePlayer extends PluginOverlay implements DetailMessage {
 		});
 		full_screenButton = (ImageButton) containerView
 				.findViewById(R.id.ib_detail_play_full);
+		select_qingx=(TextView)findViewById(R.id.select_qingx);
 
 		full_screenButton.setOnClickListener(new OnClickListener() {
 
@@ -259,6 +261,15 @@ public class PluginSimplePlayer extends PluginOverlay implements DetailMessage {
 					mMediaPlayerDelegate.goFullScreen();
 				}
 
+			}
+		});
+		select_qingx.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				CustomDialog dialog1 = new CustomDialog(mActivity, R.layout.select_qingxi_dialog, R.style.Theme_dialog);
+				dialog1.show();
 			}
 		});
 		playTitleTextView = (TextView) containerView

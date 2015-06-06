@@ -22,6 +22,18 @@
             android:paddingTop="@dimen/detail_play_content_padding_bottom"
             android:scaleType="fitCenter"
             android:src="@drawable/detail_play_btn_full_screen" />
+         <TextView
+            android:id="@+id/select_qingx"
+            style="@style/player_total_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ib_detail_play_full"
+            android:layout_alignTop="@id/ib_detail_play_full"
+            android:layout_marginRight="@dimen/detail_play_progress_margin_left"
+            android:layout_toLeftOf="@id/ib_detail_play_full"
+            android:gravity="center"
+            android:text="标清"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/total_time"
@@ -31,7 +43,7 @@
             android:layout_alignBottom="@id/ib_detail_play_full"
             android:layout_alignTop="@id/ib_detail_play_full"
             android:layout_marginRight="@dimen/detail_play_progress_margin_left"
-            android:layout_toLeftOf="@id/ib_detail_play_full"
+            android:layout_toLeftOf="@id/select_qingx"
             android:gravity="center"
             android:text="00:00"
             android:textSize="10dp" />
