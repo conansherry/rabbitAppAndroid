@@ -9,10 +9,21 @@
         android:layout_width="@dimen/dance_imageview_width"
         android:layout_height="@dimen/dance_imageview_height"
         android:src="@drawable/blank_small"/>
-    <ImageView
+    <!--ImageView
         android:id="@+id/playimage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:src="@drawable/play"/>
+        android:src="@drawable/play"/-->
+    <TextView android:id="@+id/dance_duration"
+        android:layout_width="wrap_content"
+        android:text="5:36"
+        android:textColor="@color/white"
+        android:layout_gravity="bottom|right"
+        android:shadowColor="@color/black"
+        android:textSize="18dp"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:layout_height="wrap_content"/>
 </FrameLayout>

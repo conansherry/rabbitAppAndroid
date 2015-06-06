@@ -19,4 +19,6 @@ public class RabbitDataItem implements Serializable{
     public String retTitle=null;//给danceItem复用ID
     public String retMaintext=null;
     public List<String> retExtra=null;
+
+    public double duration=0;
 }

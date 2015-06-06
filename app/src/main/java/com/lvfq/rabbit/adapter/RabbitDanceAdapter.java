@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -135,6 +136,13 @@ public class RabbitDanceAdapter extends RabbitAdapter {
                     activity.startActivity(intent);
                 }
             });
+            TextView duration=(TextView)frameLayout.findViewById(R.id.dance_duration);
+            long seconds=(long)rabbitDataItem.duration;
+            long hours=seconds/3600;
+            long minutes=seconds%3600/60;
+            long secs=seconds%60;
+            DecimalFormat decimalFormat=new DecimalFormat("00");
+            duration.setText((hours!=0?decimalFormat.format(hours)+":":"")+(minutes!=0?decimalFormat.format(minutes)+":":"")+decimalFormat.format(secs));
             holder.extraInfo.addView(frameLayout);
         }
         //end bind data to view

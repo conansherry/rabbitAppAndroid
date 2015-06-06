@@ -8,11 +8,15 @@
     <string name="info">ウサギの情報</string>
     <string name="extra">個人設定</string>
 
+    <string name="share_app">分享菟籽琳的APP</string>
+    <string name="share_url">http://120.25.122.107:8989/images/share_qr.png</string>
+    <string name="share_apk">http://www.anzhi.com/soft_2223415.html</string>
+
     <string name="newrabbit">新的小兔子出现了</string>
     <string name="norabbit">小兔子回家吃饭了</string>
     <string name="no_network_connection_toast">小兔子离线了</string>
 
-    <string name="updateerror">请检查网络连接</string>
+    <string name="nonetwork">请检查网络连接</string>
     <string name="noupdate">已经是最新版</string>
     <string name="update">有更新</string>
 
@@ -120,5 +124,16 @@
     <string name="话筒">huatongv2_thumb</string>
     <string name="蜡烛">lazhuv2_thumb</string>
     <string name="浪">lang_thumb</string>
+    <string name="最差">bad_thumb</string>
+    <string name="握手">ws_thumb</string>
+    <string name="拳头">o_thumb</string>
+    <string name="haha">ha_thumb</string>
+    <string name="飞机">travel_thumb</string>
+    <string name="彩虹">ch_thumb</string>
+    <string name="阳光">sunny_thumb</string>
+    <string name="雪">snow_thumb</string>
+    <string name="闪电">sh_thumb</string>
+    <string name="下雨">rain</string>
+    <string name="太阳">sun</string>
 
 </resources>

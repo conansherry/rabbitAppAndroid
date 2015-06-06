@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.dialog.UpdateDialog;
@@ -90,43 +91,47 @@ public class MainActivity extends ActivityBase {
         return super.onOptionsItemSelected(item);
     }
 
-    private void onUpdate(String result) {
-        if(result!=null && !result.equals("uptodate")) {
-            UpdateDialog updateDialog=new UpdateDialog();
-            Bundle args = new Bundle();
-            args.putString("url", result);
-            updateDialog.setArguments(args);
-            updateDialog.show(getSupportFragmentManager(), "update");
+    private void onUpdate(JSONObject jsonObject) {
+        try {
+            if(jsonObject!=null) {
+                Double serverVersion = jsonObject.getDouble("version");
+                if (serverVersion > Double.parseDouble(((MainApplication) getApplication()).getVersion_name())) {
+                    UpdateDialog updateDialog = new UpdateDialog();
+                    Bundle args = new Bundle();
+                    args.putDouble("version", serverVersion);
+                    args.putString("url", jsonObject.getString("url"));
+                    args.putString("info", jsonObject.getString("info"));
+                    updateDialog.setArguments(args);
+                    updateDialog.show(getSupportFragmentManager(), "update");
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "JSONException");
         }
     }
 
-    private class UpdateBackgroundTask extends AsyncTask<Void, Void, String> {
+    private class UpdateBackgroundTask extends AsyncTask<Void, Void, JSONObject> {
         private static final String TAG="UpdateBackgroundTask";
         @Override
-        protected String doInBackground(Void... params) {
+        protected JSONObject doInBackground(Void... params) {
             String result = HttpRequest.sendGet(getString(R.string.update_server), "");
+            JSONObject jsonObject=null;
             if(result==null)
-                return result;
+                return null;
             try {
-                JSONObject jsonObject = new JSONObject(result);
-                Double serverVersion = jsonObject.getDouble("version");
-                if(serverVersion>Double.parseDouble(((MainApplication)getApplication()).getVersion_name())) {
-                    result=jsonObject.getString("apk");
-                }
-                else
-                    result="uptodate";
+                jsonObject = new JSONObject(result);
             } catch (JSONException e) {
-                result=null;
+                jsonObject=null;
                 Log.e(TAG, "JSONException");
             }
-            return result;
+            return jsonObject;
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
             // Tell the Fragment that the refresh has completed
-            onUpdate(result);
+            onUpdate(jsonObject);
         }
     }
 }

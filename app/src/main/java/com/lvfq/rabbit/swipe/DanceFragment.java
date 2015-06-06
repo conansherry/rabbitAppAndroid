@@ -84,10 +84,13 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //Log.d(TAG, "first:"+firstVisibleItem+" visible:"+visibleItemCount+" total:"+totalItemCount+" last:"+listView.getLastVisiblePosition());
-                if (listView.getLastVisiblePosition() >=0 && listView.getLastVisiblePosition() == listView.getAdapter().getCount() - 1
+                if (isNetworkConnected() && listView.getLastVisiblePosition() >=0 && listView.getLastVisiblePosition() == listView.getAdapter().getCount() - 1
                         && listView.getChildAt(listView.getChildCount() - 1).getBottom() <= listView.getHeight()) {
-                    Log.d(TAG, "load more");
-                    new DanceLoadMoreBackgroundTask().execute();
+                    synchronized (canLoadMore) {
+                        Log.d(TAG, "load more");
+                        canLoadMore = false;
+                        new DanceLoadMoreBackgroundTask().execute();
+                    }
                 }
             }
         }));
@@ -122,6 +125,7 @@ public class DanceFragment extends SwipeRefreshListFragmentFragment {
             rabbitDataItem.retTitle = oneRabbit.getString("id");
             rabbitDataItem.timetext = oneRabbit.getString("published");
             rabbitDataItem.thumbnail = oneRabbit.getString("thumbnail");
+            rabbitDataItem.duration = oneRabbit.getDouble("duration");
 
             return rabbitDataItem;
         } catch (JSONException e) {

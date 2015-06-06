@@ -113,6 +113,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/share_click"
+            android:background="@drawable/userinfo"
+            android:layout_marginTop="20dp"
+            android:padding="5dip">
+
+            <ImageView
+                android:id="@+id/shareimage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/shareicon"/>
+
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/shareimage"
+                android:text="分享"
+                android:paddingLeft="5dp"
+                android:layout_centerVertical="true"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:id="@+id/about_click"
             android:background="@drawable/userinfo"
             android:layout_marginTop="20dp"
@@ -123,7 +150,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/abouticon"/>
-
 
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

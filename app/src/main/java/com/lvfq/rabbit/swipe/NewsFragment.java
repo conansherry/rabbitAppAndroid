@@ -77,14 +77,6 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
 
     private List<RabbitDataItem> rabbitData=null;
 
-    private Boolean canLoadMore=true;
-
-    private boolean isNetworkConnected(){
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -282,28 +274,4 @@ public class NewsFragment extends SwipeRefreshListFragmentFragment {
             onRefreshComplete(result, hasMore);
         }
     }
-
-    // BEGIN_INCLUDE (refresh_complete)
-    /**
-     * When the AsyncTask finishes, it calls onRefreshComplete(), which updates the data in the
-     * ListAdapter and turns off the progress bar.
-     */
-    @Override
-    protected void onRefreshComplete(List<RabbitDataItem> result, Boolean hasMore) {
-        // Remove all items from the ListAdapter, and then replace them with the new items
-        RabbitAdapter adapter = (RabbitAdapter) getListAdapter();
-        adapter.setRabbitData(result);
-        adapter.notifyDataSetChanged();
-        // Stop the refreshing indicator
-        setRefreshing(false);
-        if(hasMore)
-            Toast.makeText(getActivity(), getString(R.string.newrabbit), Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(getActivity(),getString(R.string.norabbit),Toast.LENGTH_SHORT).show();
-
-        synchronized (canLoadMore) {
-            canLoadMore=true;
-        }
-    }
-    // END_INCLUDE (refresh_complete)
 }

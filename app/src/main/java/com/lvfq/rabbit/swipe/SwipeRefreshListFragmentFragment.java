@@ -16,7 +16,10 @@
 
 package com.lvfq.rabbit.swipe;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
@@ -55,6 +58,8 @@ public abstract class SwipeRefreshListFragmentFragment extends SwipeRefreshListF
     private static final Random random = new Random();
 
     public RabbitAdapter rabbitAdapter = null;
+
+    protected Boolean canLoadMore=true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +137,16 @@ public abstract class SwipeRefreshListFragmentFragment extends SwipeRefreshListF
             Toast.makeText(getActivity(),getString(R.string.newrabbit),Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(getActivity(),getString(R.string.norabbit),Toast.LENGTH_SHORT).show();
+
+        synchronized (canLoadMore) {
+            canLoadMore=true;
+        }
     }
     // END_INCLUDE (refresh_complete)
+
+    protected boolean isNetworkConnected(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }
