@@ -269,6 +269,12 @@ public class PluginSimplePlayer extends PluginOverlay implements DetailMessage {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				CustomDialog dialog1 = new CustomDialog(mActivity, R.layout.select_qingxi_dialog, R.style.Theme_dialog);
+				dialog1.setOnSelectListener(new CustomDialog.onSelectQingxiduListener() {
+					@Override
+					public void onSelect(String qingxidu) {
+						select_qingx.setText(qingxidu);
+					}
+				});
 				dialog1.show();
 			}
 		});

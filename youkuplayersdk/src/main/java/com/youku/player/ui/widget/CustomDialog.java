@@ -20,9 +20,11 @@ import com.youku.player.ui.R;
 public class CustomDialog extends Dialog {
 	private static int default_width = 210; // 默认宽度
 	private static int default_height = 60;// 默认高度
+	private String qingxidu="标清";
 	//清晰度相关按钮
     private TextView btn_standard,btn_hight,btn_super,btn_1080;
     private Context context;
+	private onSelectQingxiduListener listenerSelect;
 
 	public CustomDialog(Context context, int layout, int style) {
 		this(context, default_width, default_height, layout, style);
@@ -62,16 +64,22 @@ public class CustomDialog extends Dialog {
 		@Override
 		public void onClick(View view) {
 			// TODO Auto-generated method stub
-			if(view.getId()==R.id.biaoqing){				//切换标清
+
+			if(view.getId()==R.id.biaoqing){
+				qingxidu="标清";//切换标清
 				change(VideoQuality.STANDARD);
-			}else if(view.getId()==R.id.gaoqing){			//切换高清
+			}else if(view.getId()==R.id.gaoqing){
+				qingxidu="高清";//切换高清
 				change(VideoQuality.HIGHT);
 			}else if(view.getId()==R.id.chaoqing){			//切换高清
+				qingxidu="超清";
 				change(VideoQuality.SUPER);
 			}else if(view.getId()==R.id.most){			//切换高清
+				qingxidu="1080P";
 				change(VideoQuality.P1080);
 			}
 			CustomDialog.this.dismiss();
+
 		}
 	};
 	
@@ -86,7 +94,13 @@ public class CustomDialog extends Dialog {
 			//通过ApiManager实例更改清晰度设置，返回值（1):成功；（0): 不支持此清晰度
 			//接口详细信息可以参数使用文档
 			int result = ApiManager.getInstance().changeVideoQuality(quality,(Activity)context);
-			if(result == 0) Toast.makeText((Activity)context, "不支持此清晰度", 2000).show();
+			if(result == 0) {
+				Toast.makeText((Activity) context, "不支持此清晰度", 2000).show();
+			}else if(result==1){
+				if(listenerSelect!=null){
+					listenerSelect.onSelect(qingxidu);
+				}
+			}
 		}catch(Exception e){
 			Toast.makeText((Activity)context, e.getMessage(), 2000).show();
 		}
@@ -96,5 +110,11 @@ public class CustomDialog extends Dialog {
 		Resources resources = context.getResources();
 		DisplayMetrics dm = resources.getDisplayMetrics();
 		return dm.density;
+	}
+	public  void setOnSelectListener(onSelectQingxiduListener listenerSelect1){
+		this.listenerSelect=listenerSelect1;
+	}
+	public static interface  onSelectQingxiduListener{
+		public void onSelect(String qingxidu);
 	}
 }
