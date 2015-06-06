@@ -244,7 +244,9 @@ public class SettingFragment extends Fragment {
                     updateDialog.setArguments(args);
                     updateDialog.show(getActivity().getSupportFragmentManager(), "update");
                 }
-
+                else {
+                    Toast.makeText(getActivity(), getString(R.string.noupdate), Toast.LENGTH_SHORT).show();
+                }
             }
         } catch (JSONException e) {
             Log.e(TAG, "JSONException");
