@@ -29,7 +29,7 @@ public class ImageActivity extends Activity {
     protected DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
             .cacheOnDisk(true)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.EXACTLY)
             .bitmapConfig(Bitmap.Config.RGB_565)
             .build();;
 

@@ -20,7 +20,6 @@ public class PlayerActivity extends YoukuBasePlayerActivity {
 	//需要播放的视频id
 	private String vid;
 
-
 	//需要播放的本地视频的id
 	private String local_vid;
 
@@ -67,7 +66,6 @@ public class PlayerActivity extends YoukuBasePlayerActivity {
 		//进行播放
 		goPlay();
 	}
-
 	
 	/**
 	 * 获取上个页面传递过来的数据
@@ -137,6 +135,4 @@ public class PlayerActivity extends YoukuBasePlayerActivity {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 }
