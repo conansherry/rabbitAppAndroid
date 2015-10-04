@@ -26,6 +26,7 @@ import android.util.Log;
 import com.lvfq.rabbit.activity.ImageActivity;
 import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
+import com.lvfq.rabbit.activity.ViewPagerActivity;
 import com.lvfq.rabbit.data.*;
 import com.lvfq.rabbit.util.SerializeTool;
 import com.lvfq.rabbit.util.SpannableStringFactory;
@@ -143,6 +144,10 @@ public class RabbitNewsAdapter extends RabbitAdapter {
         holder.extraInfo.setBackgroundColor(Color.WHITE);
         if(rabbitDataItem.extra!=null) {
             ImageView[] arrayOfImages=new ImageView[rabbitDataItem.extra.size()];
+            final String[] imageUrls = new String[rabbitDataItem.extra.size()];
+            for(int i=0; i<rabbitDataItem.extra.size(); i++) {
+                imageUrls[i] = rabbitDataItem.extra.get(i).replace("thumbnail", "large");
+            }
             int offset = 1;
             for(int i=0; i<Math.ceil(rabbitDataItem.extra.size() / 3.0); i++) {
                 int jCount=3;
@@ -153,11 +158,15 @@ public class RabbitNewsAdapter extends RabbitAdapter {
                     arrayOfImages[i*3+j].setId(offset + i * 3 + j);
                     arrayOfImages[i*3+j].setTag(rabbitDataItem.extra.get(i * 3 + j).replace("thumbnail", "small"));
                     final String bmiddleImage=rabbitDataItem.extra.get(i*3+j).replace("thumbnail", "large");
+                    final int index = i*3+j;
                     arrayOfImages[i*3+j].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent enlargeIntent = new Intent(activity, ImageActivity.class);
-                            enlargeIntent.putExtra("imageUrl",bmiddleImage);
+                            //Intent enlargeIntent = new Intent(activity, ImageActivity.class);
+                            //enlargeIntent.putExtra("imageUrl",bmiddleImage);
+                            Intent enlargeIntent = new Intent(activity, ViewPagerActivity.class);
+                            enlargeIntent.putExtra("imageUrls", imageUrls);
+                            enlargeIntent.putExtra("imageIndex", index);
                             activity.startActivity(enlargeIntent);
                         }
                     });
@@ -207,9 +216,12 @@ public class RabbitNewsAdapter extends RabbitAdapter {
             params.setMargins(8,4,0,4);
             params.addRule(RelativeLayout.BELOW, retTitle.getId());
             holder.extraInfo.addView(retMaintext, params);
-
             if(rabbitDataItem.retExtra!=null) {
-                ImageView[] arrayOfImages=new ImageView[rabbitDataItem.retExtra.size()];
+                ImageView[] arrayOfImages = new ImageView[rabbitDataItem.retExtra.size()];
+                final String[] imageUrls = new String[rabbitDataItem.retExtra.size()];
+                for(int i=0; i<rabbitDataItem.retExtra.size(); i++) {
+                    imageUrls[i] = rabbitDataItem.retExtra.get(i).replace("thumbnail", "large");
+                }
                 int offset = 1;
                 for(int i=0; i<Math.ceil(rabbitDataItem.retExtra.size() / 3.0); i++) {
                     int jCount=3;
@@ -220,11 +232,15 @@ public class RabbitNewsAdapter extends RabbitAdapter {
                         arrayOfImages[i*3+j].setId(ViewId.getInstance().getUniqueId());
                         arrayOfImages[i*3+j].setTag(rabbitDataItem.retExtra.get(i * 3 + j).replace("thumbnail", "small"));
                         final String bmiddleImage=rabbitDataItem.retExtra.get(i*3+j).replace("thumbnail", "large");
+                        final int index = i*3+j;
                         arrayOfImages[i*3+j].setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent enlargeIntent = new Intent(activity, ImageActivity.class);
-                                enlargeIntent.putExtra("imageUrl",bmiddleImage);
+                                //Intent enlargeIntent = new Intent(activity, ImageActivity.class);
+                                //enlargeIntent.putExtra("imageUrl",bmiddleImage);
+                                Intent enlargeIntent = new Intent(activity, ViewPagerActivity.class);
+                                enlargeIntent.putExtra("imageUrls", imageUrls);
+                                enlargeIntent.putExtra("imageIndex", index);
                                 activity.startActivity(enlargeIntent);
                             }
                         });

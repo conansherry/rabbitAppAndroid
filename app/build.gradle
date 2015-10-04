@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile project(':youkuplayersdk')
+    compile 'com.android.support:support-v4:22.1.1'
 }
