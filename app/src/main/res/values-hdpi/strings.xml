@@ -6,10 +6,11 @@
 
     <string name="video">菟菟舞蹈</string>
     <string name="info">菟菟动态</string>
-    <string name="extra">个人设置</string>
+    <string name="extra">菟菟社区</string>
 
     <string name="share_app">分享菟籽琳的APP</string>
     <string name="share_url">http://120.25.122.107:8989/images/share_qr.png</string>
+    <string name="start_image_hdpi">http://120.25.122.107:8989/hdpi/splash.jpg</string>
     <string name="share_apk">http://www.anzhi.com/soft_2223415.html</string>
 
     <string name="newrabbit">新的小兔子出现了</string>
@@ -24,6 +25,12 @@
     <string name="agree_update">升级</string>
     <string name="cancle_update">取消</string>
 
+    <string name="unknown_err">未知错误</string>
+    <string name="user_exists">用户已存在</string>
+    <string name="name_empty">用户名不能为空</string>
+    <string name="pwd_empty">密码不能为空</string>
+    <string name="pwd_notequal">两次输入的密码不相同</string>
+
     <string name="menu_refresh">Refresh</string>
 
     <string name="menu_color_scheme">Color scheme</string>
@@ -31,13 +38,14 @@
     <string name="menu_color_scheme_2">Scheme #2</string>
     <string name="menu_color_scheme_3">Scheme #3</string>
 
-    <string name="news_server">http://120.25.122.107:8888/getNews</string>
+    <string name="news_server">http://120.25.122.107:8889/getNews</string>
+    <string name="update_server">http://120.25.122.107:8889/update</string>
+    <string name="login_server">http://120.25.122.107:8889/login</string>
+    <string name="register_server">http://120.25.122.107:8889/register</string>
     <string name="dance_server">https://openapi.youku.com/v2/videos/by_user.json</string>
-    <string name="start_image_hdpi">http://120.25.122.107:8989/hdpi/splash.jpg</string>
 
     <string name="version">菟籽琳的APP v</string>
     <string name="about">conansherry.hy@gmail.com\n如有发现bug，欢迎随时发送邮件</string>
-    <string name="update_server">http://120.25.122.107:8888/update</string>
 
     <!-- 表情中文和文件名映射 -->
     <string name="随手拍">suishoupai2014_thumb</string>

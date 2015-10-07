@@ -11,6 +11,7 @@ import android.content.Context;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.data.RabbitDataItem;
 
+import com.lvfq.rabbit.data.UserDataItem;
 import com.lvfq.rabbit.util.SerializeTool;
 import com.lvfq.rabbit.util.SpannableStringFactory;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -26,14 +27,19 @@ import java.util.ArrayList;
 public class MainApplication extends YoukuPlayerBaseApplication {
     private final static String TAG="MainApplication";
     //global variables
-    private List<RabbitDataItem> orderListRabbitData_NEWS=null;
-    private List<RabbitDataItem> orderListRabbitData_DANCE=null;
+    private List<RabbitDataItem> orderListRabbitData_NEWS = null;
+    private List<RabbitDataItem> orderListRabbitData_DANCE = null;
 
-    private String version_name=null;
+    private String version_name = null;
+
+    private UserDataItem userDataItem = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        initImageLoader(getApplicationContext());
+
         // TODO Put your application initialization code here.
         Log.d(TAG, "onCreate");
         try {
@@ -47,6 +53,8 @@ public class MainApplication extends YoukuPlayerBaseApplication {
 
         if(settings.getString("VERSION", "").isEmpty() || !settings.getString("VERSION", "").equals(version_name)) {
             settings.edit().clear().commit();
+            ImageLoader.getInstance().clearMemoryCache();
+            ImageLoader.getInstance().clearDiskCache();
         }
         settings.edit().putString("VERSION", version_name).commit();
         String newsData = settings.getString("NEWS", "");
@@ -67,9 +75,19 @@ public class MainApplication extends YoukuPlayerBaseApplication {
             e.printStackTrace();
         }
 
-        initImageLoader(getApplicationContext());
-        ImageLoader.getInstance().clearMemoryCache();
-        ImageLoader.getInstance().clearDiskCache();
+        String userinfo = settings.getString("USERINFO", "");
+        try {
+            if(userinfo.isEmpty()) {
+                userDataItem = null;
+            }
+            else {
+                userDataItem = (UserDataItem)SerializeTool.fromString(userinfo);
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getVersion_name() {
@@ -90,6 +108,27 @@ public class MainApplication extends YoukuPlayerBaseApplication {
 
     public List<RabbitDataItem> getListRabbitDataItem_DANCE() {
         return orderListRabbitData_DANCE;
+    }
+
+    public UserDataItem getUserInfo() {
+        return userDataItem;
+    }
+
+    public void setUserInfo(UserDataItem userinfo) {
+        userDataItem = userinfo;
+        try {
+            String storage = SerializeTool.toString(userinfo);
+            // We need an Editor object to make preference changes.
+            // All objects are from android.context.Context
+            SharedPreferences settings = getSharedPreferences(getString(R.string.app_name), 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("USERINFO", storage);
+            // Commit the edits!
+            editor.commit();
+            Log.d(TAG, "持久化成功");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void initImageLoader(Context context) {

@@ -29,8 +29,6 @@ import android.util.Log;
 
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.common.view.SlidingTabLayout;
-import com.lvfq.rabbit.swipe.DanceFragment;
-import com.lvfq.rabbit.swipe.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +176,9 @@ public class SlidingTabsColorsFragment extends Fragment {
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setAdapter(new RabbitFragmentPagerAdapter(getChildFragmentManager()));
+        int index = getArguments().getInt("index");
+        if(index != -1)
+            mViewPager.setCurrentItem(index);
         // END_INCLUDE (setup_viewpager)
 
         // BEGIN_INCLUDE (setup_slidingtablayout)

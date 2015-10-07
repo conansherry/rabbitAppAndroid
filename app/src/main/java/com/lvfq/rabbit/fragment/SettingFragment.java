@@ -35,20 +35,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.lvfq.rabbit.Appcontext.MainApplication;
 import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.activity.AboutActivity;
+import com.lvfq.rabbit.activity.LoginActivity;
 import com.lvfq.rabbit.activity.PlayerActivity;
 import com.lvfq.rabbit.data.RabbitDataItem;
+import com.lvfq.rabbit.data.UserDataItem;
 import com.lvfq.rabbit.dialog.UpdateDialog;
 import com.lvfq.rabbit.util.HttpRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -68,6 +72,8 @@ public class SettingFragment extends Fragment {
 
     private Boolean canCheckUpdate=true;
     private Boolean canShare=true;
+
+    private UserDataItem userDataItem = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,6 +95,23 @@ public class SettingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        TextView userName = (TextView)view.findViewById(R.id.username);
+        userDataItem = ((MainApplication)getActivity().getApplication()).getUserInfo();
+        if(userDataItem != null) {
+            userName.setText(userDataItem.name);
+            TextView userLevel = (TextView)view.findViewById(R.id.userlevel);
+            userLevel.setText(userDataItem.title);
+        }
+        else {
+            userName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    getActivity().startActivity(intent);
+                }
+            });
+        }
 
         RelativeLayout update=(RelativeLayout)view.findViewById(R.id.update_click);
         update.setOnClickListener(new View.OnClickListener() {

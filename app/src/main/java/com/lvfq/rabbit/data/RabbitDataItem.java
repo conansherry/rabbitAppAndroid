@@ -1,7 +1,5 @@
 package com.lvfq.rabbit.data;
 
-import android.text.SpannableString;
-
 import java.io.Serializable;
 import java.util.List;
 

@@ -66,7 +66,10 @@ public class MainActivity extends ActivityBase {
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment();
-            //SwipeRefreshListFragmentFragment fragment = new SwipeRefreshListFragmentFragment();
+            int index = getIntent().getIntExtra("index", -1);
+            Bundle args = new Bundle();
+            args.putInt("index", index);
+            fragment.setArguments(args);
             transaction.replace(R.id.main_fragment, fragment);
             transaction.commit();
         }

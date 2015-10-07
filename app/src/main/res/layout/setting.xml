@@ -32,7 +32,7 @@
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/username"
-                    android:text="用户系统开发ing"
+                    android:text="点击登录"
                     android:paddingLeft="5dp"
                     android:paddingTop="20dp"
                     android:textSize="24dp"
@@ -42,7 +42,7 @@
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/userlevel"
-                    android:text="敬请期待"
+                    android:text=""
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:textSize="20dp"
@@ -51,35 +51,6 @@
             </LinearLayout>
 
         </RelativeLayout>
-
-        <!-->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/userinfo"
-            android:layout_marginTop="20dp"
-            android:padding="5dip">
-
-            <ImageView
-                android:id="@+id/settingimage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/blank_small"/>
-
-
-            <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/settingimage"
-                android:text="设置"
-                android:paddingLeft="5dp"
-                android:layout_centerVertical="true"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/black" />
-
-        </RelativeLayout>
-        <-->
 
         <RelativeLayout
             android:layout_width="match_parent"

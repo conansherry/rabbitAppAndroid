@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.lvfq.rabbit.swipe;
+package com.lvfq.rabbit.fragment;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -41,6 +41,8 @@ import com.lvfq.rabbit.R;
 import com.lvfq.rabbit.adapter.RabbitAdapter;
 import com.lvfq.rabbit.adapter.RabbitNewsAdapter;
 import com.lvfq.rabbit.data.RabbitDataItem;
+import com.lvfq.rabbit.swipe.SwipeRefreshListFragment;
+import com.lvfq.rabbit.swipe.SwipeRefreshListFragmentFragment;
 import com.lvfq.rabbit.util.HttpRequest;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
