@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5dip">
+    android:padding="0dip"
+    android:background="@color/littlegray" >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -13,14 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/userinfo"
-            android:padding="5dip">
+            android:background="@drawable/setting_item"
+            android:padding="5dip"
+            android:layout_marginTop="20dp"
+            android:clickable="true" >
 
             <ImageView
-                android:layout_margin="2dp"
+                android:layout_margin="4dp"
                 android:id="@+id/thumbnail"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/userphoto"/>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -35,8 +38,7 @@
                     android:text="点击登录"
                     android:paddingLeft="5dp"
                     android:paddingTop="20dp"
-                    android:textSize="24dp"
-                    android:textStyle="bold"
+                    android:textSize="16dp"
                     android:textColor="@color/black" />
 
                 <TextView android:layout_width="wrap_content"
@@ -45,7 +47,7 @@
                     android:text=""
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textColor="@color/black" />
 
             </LinearLayout>
@@ -54,82 +56,85 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:id="@+id/update_click"
-            android:background="@drawable/userinfo"
+            android:background="@drawable/setting_item"
             android:layout_marginTop="20dp"
-            android:padding="5dip">
+            android:padding="5dip" >
 
             <ImageView
                 android:id="@+id/updateimage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/updateicon"/>
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_update"  />
 
 
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/updateimage"
                 android:text="检查更新"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:layout_centerVertical="true"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="16dp"
                 android:textColor="@color/black" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:id="@+id/share_click"
-            android:background="@drawable/userinfo"
+            android:background="@drawable/setting_item"
             android:layout_marginTop="20dp"
             android:padding="5dip">
 
             <ImageView
                 android:id="@+id/shareimage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/shareicon"/>
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/icon_share"/>
 
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/shareimage"
                 android:text="分享"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:layout_centerVertical="true"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="16dp"
                 android:textColor="@color/black" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:id="@+id/about_click"
-            android:background="@drawable/userinfo"
+            android:background="@drawable/setting_item"
             android:layout_marginTop="20dp"
             android:padding="5dip">
 
             <ImageView
                 android:id="@+id/aboutimage"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/abouticon"/>
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/icon_about"/>
 
             <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/aboutimage"
                 android:text="关于"
-                android:paddingLeft="5dp"
+                android:paddingLeft="20dp"
                 android:layout_centerVertical="true"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="16dp"
                 android:textColor="@color/black" />
 
         </RelativeLayout>
